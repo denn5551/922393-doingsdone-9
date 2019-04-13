@@ -1,6 +1,18 @@
 <?php
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
+
+$arrayTasks=["Входящие","Учеба", "Работа", "Домашние дела", "Авто"];
+
+$myTasks=[
+        ["Собеседование в IT компании", "01.12.2018", "Работа", "Нет"],
+        ["Выполнить тестовое задание", "25.12.2018", "Работа", "Нет"],
+        ["Сделать задание первого раздела", "21.12.2018", "Учеба", "Да"],
+        ["Встреча с другом", "22.12.2018", "Входящие", "Нет"],
+        ["Купить корм для кота", "Нет", "Домашние дела", "Нет"],
+        ["Заказать пиццу", "Нет", "Домашние дела", "Нет"],
+];
+//echo ($myTasks [4][0])
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -42,10 +54,12 @@ $show_complete_tasks = rand(0, 1);
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
+						<?php foreach ($arrayTasks as $val): ?>
                         <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#">Название проекта</a>
+                            <a class="main-navigation__list-item-link" href="#"><?= $val ?></a>
                             <span class="main-navigation__list-item-count">0</span>
                         </li>
+						<?php endforeach;?>
                     </ul>
                 </nav>
 
@@ -72,39 +86,27 @@ $show_complete_tasks = rand(0, 1);
 
                     <label class="checkbox">
                         <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
-                        <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?php if ($show_complete_tasks == 1) { echo 'checked';} ?> >
+                        <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?= ($show_complete_tasks)? 'checked': '' ?> >
                         <span class="checkbox__text">Показывать выполненные</span>
                     </label>
                 </div>
 
                 <table class="tasks">
-                    <tr class="tasks__item task">
-                        <td class="task__select">
-                            <label class="checkbox task__checkbox">
-                                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
-                                <span class="checkbox__text">Сделать главную страницу Дела в порядке</span>
-                            </label>
-                        </td>
-
-                        <td class="task__file">
-                            <a class="download-link" href="#">Home.psd</a>
-                        </td>
-
-                        <td class="task__date"></td>
-                    </tr>
+					<?php foreach ($myTasks as $val): ?>
                     <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
-                    <?php if ($show_complete_tasks == 1) : ?>
-                    <tr class="tasks__item task task--completed">
+                    <?php if (($show_complete_tasks) || ($val[3] === "Нет")): ?>
+                    <tr class="tasks__item task <?= ($val[3] === "Да")? 'task--completed': '' ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                <span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
+                                <span class="checkbox__text"><?= $val[0]?></span>
                             </label>
                         </td>
-                        <td class="task__date">10.10.2019</td>
+                        <td class="task__date"><?= $val[1]?></td>
                         <td class="task__controls"></td>
                     </tr>
-                    <?php endif; ?>
+                    <?php endif ?>
+                    <?php endforeach ?>
                 </table>
             </main>
         </div>
