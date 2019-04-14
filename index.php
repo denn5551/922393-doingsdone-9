@@ -2,15 +2,17 @@
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
-$arrayTasks=["Входящие","Учеба", "Работа", "Домашние дела", "Авто"];
+/** @var TYPE_NAME $array_tasks */
+$array_tasks = ["Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
 
-$myTasks=[
-        ["Собеседование в IT компании", "01.12.2018", "Работа", "Нет"],
-        ["Выполнить тестовое задание", "25.12.2018", "Работа", "Нет"],
-        ["Сделать задание первого раздела", "21.12.2018", "Учеба", "Да"],
-        ["Встреча с другом", "22.12.2018", "Входящие", "Нет"],
-        ["Купить корм для кота", "Нет", "Домашние дела", "Нет"],
-        ["Заказать пиццу", "Нет", "Домашние дела", "Нет"],
+/** @var TYPE_NAME $my_tasks */
+$my_tasks = [
+        ["task" => "Собеседование в IT компании", "date" => "01.12.2018", "category" => "Работа", "ready" => "Нет"],
+        ["task" => "Выполнить тестовое задание", "date" => "25.12.2018", "category" => "Работа", "ready" => "Нет"],
+        ["task" => "Сделать задание первого раздела", "date" => "21.12.2018", "category" => "Учеба", "ready" => "Да"],
+        ["task" => "Встреча с другом", "date" => "22.12.2018", "category" => "Входящие", "ready" => "Нет"],
+        ["task" => "Купить корм для кота", "date" => "Нет", "category" => "Домашние дела", "ready" => "Нет"],
+        ["task" => "Заказать пиццу", "date" => "Нет", "category" => "Домашние дела", "ready" => "Нет"],
 ];
 //echo ($myTasks [4][0])
 ?>
@@ -54,9 +56,9 @@ $myTasks=[
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-						<?php foreach ($arrayTasks as $val): ?>
+						<?php foreach ($array_tasks as $project): ?>
                         <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#"><?= $val ?></a>
+                            <a class="main-navigation__list-item-link" href="#"><?= $project ?></a>
                             <span class="main-navigation__list-item-count">0</span>
                         </li>
 						<?php endforeach;?>
@@ -92,20 +94,21 @@ $myTasks=[
                 </div>
 
                 <table class="tasks">
-					<?php foreach ($myTasks as $val): ?>
+					<?php foreach ($my_tasks as $val): ?>
                     <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
-                    <?php if (($show_complete_tasks) || ($val[3] === "Нет")): ?>
-                    <tr class="tasks__item task <?= ($val[3] === "Да")? 'task--completed': '' ?>">
+                    <?php if (($show_complete_tasks) || ($val["ready"] === "Нет")): ?>
+                    <tr class="tasks__item task <?= ($val["ready"] === "Да")? 'task--completed': '' ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                <span class="checkbox__text"><?= $val[0]?></span>
+                                <span class="checkbox__text"><?= $val["task"] ?></span>
                             </label>
                         </td>
-                        <td class="task__date"><?= $val[1]?></td>
+                        <td class="task__date"><?= $val["date"]?></td>
                         <td class="task__controls"></td>
                     </tr>
                     <?php endif ?>
+
                     <?php endforeach ?>
                 </table>
             </main>
