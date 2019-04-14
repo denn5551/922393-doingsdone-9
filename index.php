@@ -3,16 +3,16 @@
 $show_complete_tasks = rand(0, 1);
 
 /** @var TYPE_NAME $array_tasks */
-$array_tasks = ["Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
+$array_tasks = ["inbox" => "Входящие", "Study" => "Учеба", "work" => "Работа", "Housework" => "Домашние дела", "car" => "Авто"];
 
 /** @var TYPE_NAME $my_tasks */
 $my_tasks = [
-        ["task" => "Собеседование в IT компании", "date" => "01.12.2018", "category" => "Работа", "ready" => "Нет"],
-        ["task" => "Выполнить тестовое задание", "date" => "25.12.2018", "category" => "Работа", "ready" => "Нет"],
-        ["task" => "Сделать задание первого раздела", "date" => "21.12.2018", "category" => "Учеба", "ready" => "Да"],
-        ["task" => "Встреча с другом", "date" => "22.12.2018", "category" => "Входящие", "ready" => "Нет"],
-        ["task" => "Купить корм для кота", "date" => "Нет", "category" => "Домашние дела", "ready" => "Нет"],
-        ["task" => "Заказать пиццу", "date" => "Нет", "category" => "Домашние дела", "ready" => "Нет"],
+        ["task" => "Собеседование в IT компании", "date" => "01.12.2018", "category" => "Работа", "ready" => false],
+        ["task" => "Выполнить тестовое задание", "date" => "25.12.2018", "category" => "Работа", "ready" => false],
+        ["task" => "Сделать задание первого раздела", "date" => "21.12.2018", "category" => "Учеба", "ready" => true],
+        ["task" => "Встреча с другом", "date" => "22.12.2018", "category" => "Входящие", "ready" => false],
+        ["task" => "Купить корм для кота", "date" => "Нет", "category" => "Домашние дела", "ready" => false],
+        ["task" => "Заказать пиццу", "date" => "Нет", "category" => "Домашние дела", "ready" => false],
 ];
 //echo ($myTasks [4][0])
 ?>
@@ -94,22 +94,21 @@ $my_tasks = [
                 </div>
 
                 <table class="tasks">
-					<?php foreach ($my_tasks as $val): ?>
+					<?php foreach ($my_tasks as $task): ?>
                     <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
-                    <?php if (($show_complete_tasks) || ($val["ready"] === "Нет")): ?>
-                    <tr class="tasks__item task <?= ($val["ready"] === "Да")? 'task--completed': '' ?>">
+                    <?php if (($show_complete_tasks) || ($task["ready"] === false)): ?>
+                    <tr class="tasks__item task <?= ($task["ready"] === true)? 'task--completed': '' ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                <span class="checkbox__text"><?= $val["task"] ?></span>
+                                <span class="checkbox__text"><?= $task["task"] ?></span>
                             </label>
                         </td>
-                        <td class="task__date"><?= $val["date"]?></td>
+                        <td class="task__date"><?= $task["date"]?></td>
                         <td class="task__controls"></td>
                     </tr>
-                    <?php endif ?>
-
-                    <?php endforeach ?>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
                 </table>
             </main>
         </div>
