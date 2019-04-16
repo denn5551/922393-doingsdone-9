@@ -2,7 +2,6 @@
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
-/** @var TYPE_NAME $projects */
 $projects = [
     "inbox" => "Входящие",
     "study" => "Учеба",
@@ -11,7 +10,6 @@ $projects = [
     "car" => "Авто"
 ];
 
-/** @var TYPE_NAME $my_tasks */
 $my_tasks = [
     [
         "task" => "Собеседование в IT компании",
@@ -50,14 +48,13 @@ $my_tasks = [
         "ready" => false
     ],
 ];
-//echo ($myTasks [4][0])
 
-function count_projects($task_list, $Project_name)
+function count_projects($task_list, $project_name)
 {
     $i = 0;
-    foreach ($task_list as $list) {
+    foreach ($task_list as $task) {
 
-        if ($list["category"] === $Project_name) {
+        if ($task["category"] === $project_name) {
             $i++;
         }
     }
