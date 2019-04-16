@@ -2,19 +2,69 @@
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
-/** @var TYPE_NAME $array_tasks */
-$array_tasks = ["inbox" => "Входящие", "Study" => "Учеба", "work" => "Работа", "Housework" => "Домашние дела", "car" => "Авто"];
+/** @var TYPE_NAME $projects */
+$projects = [
+    "inbox" => "Входящие",
+    "study" => "Учеба",
+    "work" => "Работа",
+    "housework" => "Домашние дела",
+    "car" => "Авто"
+];
 
 /** @var TYPE_NAME $my_tasks */
 $my_tasks = [
-        ["task" => "Собеседование в IT компании", "date" => "01.12.2018", "category" => "Работа", "ready" => false],
-        ["task" => "Выполнить тестовое задание", "date" => "25.12.2018", "category" => "Работа", "ready" => false],
-        ["task" => "Сделать задание первого раздела", "date" => "21.12.2018", "category" => "Учеба", "ready" => true],
-        ["task" => "Встреча с другом", "date" => "22.12.2018", "category" => "Входящие", "ready" => false],
-        ["task" => "Купить корм для кота", "date" => "Нет", "category" => "Домашние дела", "ready" => false],
-        ["task" => "Заказать пиццу", "date" => "Нет", "category" => "Домашние дела", "ready" => false],
+    [
+        "task" => "Собеседование в IT компании",
+        "date" => "01.12.2018",
+        "category" => $projects['work'],
+        "ready" => false
+    ],
+    [
+        "task" => "Выполнить тестовое задание",
+        "date" => "25.12.2018",
+        "category" => $projects['work'],
+        "ready" => false
+    ],
+    [
+        "task" => "Сделать задание первого раздела",
+        "date" => "21.12.2018",
+        "category" => $projects['study'],
+        "ready" => true
+    ],
+    [
+        "task" => "Встреча с другом",
+        "date" => "22.12.2018",
+        "category" => $projects['inbox'],
+        "ready" => false
+    ],
+    [
+        "task" => "Купить корм для кота",
+        "date" => "Нет",
+        "category" => $projects['housework'],
+        "ready" => false
+    ],
+    [
+        "task" => "Заказать пиццу",
+        "date" => "Нет",
+        "category" => $projects['housework'],
+        "ready" => false
+    ],
 ];
 //echo ($myTasks [4][0])
+
+function count_projects($task_list, $Project_name)
+{
+    $i = 0;
+    foreach ($task_list as $list) {
+
+        if ($list["category"] === $Project_name) {
+            $i++;
+        }
+    }
+
+    return $i;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -56,10 +106,10 @@ $my_tasks = [
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-						<?php foreach ($array_tasks as $project): ?>
+						<?php foreach ($projects as $project): ?>
                         <li class="main-navigation__list-item">
                             <a class="main-navigation__list-item-link" href="#"><?= $project ?></a>
-                            <span class="main-navigation__list-item-count">0</span>
+                            <span class="main-navigation__list-item-count"><?= count_projects ($my_tasks, $project); ?></span>
                         </li>
 						<?php endforeach;?>
                     </ul>
@@ -96,15 +146,15 @@ $my_tasks = [
                 <table class="tasks">
 					<?php foreach ($my_tasks as $task): ?>
                     <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
-                    <?php if (($show_complete_tasks) || ($task["ready"] === false)): ?>
-                    <tr class="tasks__item task <?= ($task["ready"] === true)? 'task--completed': '' ?>">
+                    <?php if (($show_complete_tasks) || (!$task["ready"])): ?>
+                    <tr class="tasks__item task <?= ($task["ready"])? 'task--completed': '' ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                <span class="checkbox__text"><?= $task["task"] ?></span>
+                                <span class="checkbox__text"><?= $task["task"]; ?></span>
                             </label>
                         </td>
-                        <td class="task__date"><?= $task["date"]?></td>
+                        <td class="task__date"><?= $task["date"]; ?></td>
                         <td class="task__controls"></td>
                     </tr>
                     <?php endif; ?>
