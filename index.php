@@ -3,31 +3,66 @@
 $show_complete_tasks = rand(0, 1);
 
 /** @var TYPE_NAME $projects */
-$projects = ["inbox" => "Входящие", "Study" => "Учеба", "work" => "Работа", "Housework" => "Домашние дела", "car" => "Авто"];
+$projects = [
+    "inbox" => "Входящие",
+    "study" => "Учеба",
+    "work" => "Работа",
+    "housework" => "Домашние дела",
+    "car" => "Авто"
+];
 
 /** @var TYPE_NAME $my_tasks */
 $my_tasks = [
-        ["task" => "Собеседование в IT компании", "date" => "01.12.2018", "category" => $projects['work'], "ready" => false],
-        ["task" => "Выполнить тестовое задание", "date" => "25.12.2018", "category" => $projects['work'], "ready" => false],
-        ["task" => "Сделать задание первого раздела", "date" => "21.12.2018", "category" => $projects['Study'], "ready" => true],
-        ["task" => "Встреча с другом", "date" => "22.12.2018", "category" => $projects['inbox'], "ready" => false],
-        ["task" => "Купить корм для кота", "date" => "Нет", "category" => $projects['Housework'], "ready" => false],
-        ["task" => "Заказать пиццу", "date" => "Нет", "category" => $projects['Housework'], "ready" => false],
+    [
+        "task" => "Собеседование в IT компании",
+        "date" => "01.12.2018",
+        "category" => $projects['work'],
+        "ready" => false
+    ],
+    [
+        "task" => "Выполнить тестовое задание",
+        "date" => "25.12.2018",
+        "category" => $projects['work'],
+        "ready" => false
+    ],
+    [
+        "task" => "Сделать задание первого раздела",
+        "date" => "21.12.2018",
+        "category" => $projects['study'],
+        "ready" => true
+    ],
+    [
+        "task" => "Встреча с другом",
+        "date" => "22.12.2018",
+        "category" => $projects['inbox'],
+        "ready" => false
+    ],
+    [
+        "task" => "Купить корм для кота",
+        "date" => "Нет",
+        "category" => $projects['housework'],
+        "ready" => false
+    ],
+    [
+        "task" => "Заказать пиццу",
+        "date" => "Нет",
+        "category" => $projects['housework'],
+        "ready" => false
+    ],
 ];
 //echo ($myTasks [4][0])
 
-function count_projects ($task_list, $Project_name) {
+function count_projects($task_list, $Project_name)
+{
     $i = 0;
-    foreach ($task_list as $list){
+    foreach ($task_list as $list) {
 
-        $list = $list;
-
-        if ($list["category"] === $Project_name){
+        if ($list["category"] === $Project_name) {
             $i++;
         }
     }
 
-   return $i;
+    return $i;
 }
 
 ?>
