@@ -15,22 +15,22 @@ $projects = [
 $my_tasks = [
     [
         "task" => "Собеседование в IT компании",
-        "date" => "01.12.2018",
+        "date" => "20.04.2019",
         "category" => $projects['work'],
         "ready" => false
     ], [
         "task" => "Выполнить тестовое задание",
-        "date" => "25.12.2018",
+        "date" => "19.04.2019",
         "category" => $projects['work'],
         "ready" => false
     ], [
         "task" => "Сделать задание первого раздела",
-        "date" => "21.12.2018",
+        "date" => "18.03.2019",
         "category" => $projects['study'],
         "ready" => true
     ], [
         "task" => "Встреча с другом",
-        "date" => "22.12.2018",
+        "date" => "18.04.2019",
         "category" => $projects['inbox'],
         "ready" => false
     ], [
