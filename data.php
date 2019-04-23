@@ -15,7 +15,7 @@ $projects = [
 $my_tasks = [
     [
         "task" => "Собеседование в IT компании",
-        "date" => "21.04.2019",
+        "date" => "2019-04-25",
         "category" => $projects['work'],
         "ready" => false
     ], [
