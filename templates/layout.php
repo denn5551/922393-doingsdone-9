@@ -24,7 +24,7 @@
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
-                        <p><?= $user_name; ?></p>
+                        <p><?= $user_name['user_name']; ?></p>
 
                         <a href="#">Выйти</a>
                     </div>
@@ -40,8 +40,9 @@
                     <ul class="main-navigation__list">
                         <?php foreach ($projects as $project): ?>
                             <li class="main-navigation__list-item">
-                                <a class="main-navigation__list-item-link" href="#"><?= $project ?></a>
-                                <span class="main-navigation__list-item-count"><?= count_projects ($my_tasks, $project); ?></span>
+                                <a class="main-navigation__list-item-link" href="#"><?= $project['projects_name'] ?></a>
+                                <span class="main-navigation__list-item-count"><?= count_projects ($project, $count);  ?></span>
+
                             </li>
                         <?php endforeach;?>
                     </ul>
@@ -70,7 +71,7 @@
 
                     <label class="checkbox">
                         <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
-                        <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?= ($show_complete_tasks)? 'checked': '' ?> >
+                        <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?= task_status($my_tasks); ?> >
                         <span class="checkbox__text">Показывать выполненные</span>
                     </label>
                 </div>

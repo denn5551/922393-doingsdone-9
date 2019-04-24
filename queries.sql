@@ -63,10 +63,15 @@ GROUP BY projects_name;
 #получить список из всех задач для одного проекта
 SELECT task_name FROM task WHERE projects_id = 3;
 
+#получить списка из всех задач у текущего пользователя
+SELECT projects_id, task_name  FROM task t
+JOIN projects p
+ON p.id = t.projects_id AND user_id = 9;
+
 #пометить задачу как выполненную;
 UPDATE task SET status = 1
-WHERE id = 9
+WHERE id = 9;
 
 # обновить название задачи по её идентификатору
 UPDATE task SET task_name = 'Новая задача'
-WHERE id = 9
+WHERE id = 9;
