@@ -41,7 +41,7 @@
                         <?php foreach ($projects as $project): ?>
                             <li class="main-navigation__list-item">
                                 <a class="main-navigation__list-item-link" href="#"><?= $project['projects_name'] ?></a>
-                                <span class="main-navigation__list-item-count"><?= count_projects ($project, $count);  ?></span>
+                                <span class="main-navigation__list-item-count"><?= count_tasks_in_project($project, $count); ?></span>
 
                             </li>
                         <?php endforeach;?>
@@ -71,7 +71,7 @@
 
                     <label class="checkbox">
                         <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
-                        <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?= task_status($my_tasks); ?> >
+                        <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?= ($show_complete_tasks)? 'checked': '' ?> >
                         <span class="checkbox__text">Показывать выполненные</span>
                     </label>
                 </div>

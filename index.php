@@ -12,7 +12,7 @@ $layout_content = include_template('layout.php', [
     'count' => $count,
     'show_complete_tasks' => $show_complete_tasks,
     'title' => 'Дела впорядке',
-    'user_name' => $un,
+    'user_name' => $user_name,
 ]);
 
 print($layout_content);

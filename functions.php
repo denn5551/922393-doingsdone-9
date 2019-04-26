@@ -1,59 +1,49 @@
 <?php
-//function count_projects($task_list, $project_name)
-//{
-//    $i = 0;
-//    foreach ($task_list as $task) {
-//
-//        if ($task["category"] === $project_name) {
-//            $i++;
-//        }
-//    }
-//    return $i;
-//}
-
+/**
+* Определяет сколько часов осталось до закрытия задачи
+* @param data $user_date — дата завершения задания
+ */
 function user_date($user_date)
 {
-    $date_naw = strtotime(date('d M Y '));
+    $date_now = strtotime(date('d M Y '));
 
     $user_date_midnight = strtotime("+23 hours", strtotime($user_date));
 
-    $hours_left = floor(($user_date_midnight - $date_naw) / 3600);
+    $hours_left = floor(($user_date_midnight - $date_now) / 3600);
 
     return $hours_left;
 }
 
-function count_projects($task_list, $project_name)
+/**
+ *Считает количество задач в конкретном проекте
+ * @param String  $task_list — список категорий пользователя
+ * @param Array $all_categories — список всех категорий с задачами
+ * @return int|mixed
+ */
+
+function count_tasks_in_project($task_list, $all_categories)
 {
-    $count_task = 0;
-    foreach ($project_name as $project) {
-
-        if ($task_list["projects_name"] === $project['projects_name']) {
-            $count_task = $project['COUNT(projects_name)'];
-
+    $i = 0;
+    foreach ($all_categories as $category) {
+        if ($task_list["projects_name"] === $category['projects_name']) {
+            $i++;
         }
     }
-    return $count_task;
+    return $i;
 }
 
-function user_important($time_important)
+/**
+* Проверят время до выполнения задачи больше 0 и меньше 24
+* @param data $time_important — Время завершения задачи
+ */
+function task_important($time_important)
 {
     if (user_date($time_important) <= 24 && user_date($time_important) >= 0) {
-        $important = 'task--important';
+        $important = true;
     } else {
-        $important = '';
+        $important = false;
     }
     return $important;
 }
 
-function task_status($status)
-{
-    foreach ($status as $stat){
-    if($stat['status']){
-        $status = 'checked';
-    }else
-        {
-        $status = '';
-    }
-}
-    return $status;
-}
+
