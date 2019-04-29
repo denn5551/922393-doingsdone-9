@@ -1,9 +1,9 @@
 <?php
 /**
-* Определяет сколько часов осталось до закрытия задачи
-* @param data $user_date — дата завершения задания
+ * Определяет сколько часов осталось до закрытия задачи
+ * @param data $user_date — дата завершения задания
  */
-function user_date($user_date)
+function hours_left_to_close_task($user_date)
 {
     $date_now = strtotime(date('d M Y '));
 
@@ -16,16 +16,16 @@ function user_date($user_date)
 
 /**
  *Считает количество задач в конкретном проекте
- * @param String  $task_list — список категорий пользователя
- * @param Array $all_categories — список всех категорий с задачами
- * @return int|mixed
+ * @param Array $task_list — список всех задач пользоветля
+ * @param Array $category — текущая категория(проекта) пользователя
+ * @return int
  */
 
-function count_tasks_in_project($task_list, $all_categories)
+function count_tasks_in_project($category, $task_list)
 {
     $i = 0;
-    foreach ($all_categories as $category) {
-        if ($task_list["projects_name"] === $category['projects_name']) {
+    foreach ($task_list as $task) {
+        if ($category['id'] === $task['projects_id']) {
             $i++;
         }
     }
@@ -33,17 +33,15 @@ function count_tasks_in_project($task_list, $all_categories)
 }
 
 /**
-* Проверят время до выполнения задачи больше 0 и меньше 24
-* @param data $time_important — Время завершения задачи
+ * Проверят время до выполнения задачи больше 0 и меньше 24
+ * @param data $time_to_close_task — Время завершения задачи
  */
-function task_important($time_important)
+function is_task_important($time_to_close_task)
 {
-    if (user_date($time_important) <= 24 && user_date($time_important) >= 0) {
-        $important = true;
-    } else {
-        $important = false;
+    if (hours_left_to_close_task($time_to_close_task) <= 24 && hours_left_to_close_task($time_to_close_task) >= 0) {
+        return true;
     }
-    return $important;
+    return false;
 }
 
 

@@ -11,31 +11,4 @@ else {
 
 $user_id = 10; // меняем id юзера для тестов (9 или 10)
 
-#Получаем категории для пользователя по id
-$sql ="SELECT projects_name FROM projects where user_id = $user_id;";
-$result = mysqli_query($con, $sql);
-$projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
-// вывод срдержимого из полученного массива
-//foreach ($project as $project) {
-//    print("Категория: "
-//        . $project['projects_name']);
-//}
 
-#Получаем список задач для пользователя по id
-$sql_task = "SELECT projects_id, task_name,status,lifetime  FROM task t
-JOIN projects p
-ON p.id = t.projects_id AND user_id = $user_id";
-$result_task = mysqli_query($con,$sql_task);
-$my_tasks = mysqli_fetch_all($result_task, MYSQLI_ASSOC);
-
-# Получаем весь список категорий
-$sql= "SELECT p.id, projects_name FROM projects p
-JOIN task t
-ON p.id = t.projects_id;";
-$result= mysqli_query($con,$sql);
-$count = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-#Получаем имя пользователя
-$sql_un = "SELECT user_name FROM users where id = $user_id;";
-$result_un = mysqli_query($con,$sql_un);
-$user_name = mysqli_fetch_assoc($result_un);
