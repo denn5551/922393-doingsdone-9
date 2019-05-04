@@ -35,11 +35,11 @@
         <div class="content">
             <section class="content__side">
                 <h2 class="content__side-heading">Проекты</h2>
-
+<!-- TODO можно заменить id на алиас -->
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
                         <?php foreach ($projects as $project): ?>
-                            <li class="main-navigation__list-item <?= $project['id'] === $_GET['project'] ? 'main-navigation__list-item--active': '' ?>">
+                            <li class="main-navigation__list-item <?= (isset($_GET['project']) && $_GET['project'] === $project['id'])? 'main-navigation__list-item--active': '' ?>">
                                 <a class="main-navigation__list-item-link" href="index.php?project=<?= $project['id'] ?>"><?= $project['projects_name'] ?></a>
                                 <span class="main-navigation__list-item-count"><?= count_tasks_in_project($project, $my_tasks); ?></span>
 

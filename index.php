@@ -4,22 +4,21 @@ require_once('data.php');
 require_once('functions.php');
 require_once('init.php');
 
+// TODO Сделать функции для всего что расположено ниже.
+
 #Получаем id и названия категорий  для пользователя по id
 $sql ="SELECT projects_name, id  FROM projects where user_id = $user_id;";
 $result = mysqli_query($con, $sql);
 $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
-// вывод срдержимого из полученного массива
-//foreach ($project as $project) {
-//    print("Категория: "
-//        . $project['projects_name']);
-//}
 
-#Получаем список задач для пользователя по id
+
+# Получаем списко задач для всех категорий/проектов (если пользователь не выбрал конкретную категорию/проект)
 $sql_task = "SELECT projects_id, task_name, status, lifetime  FROM task t
 JOIN projects p
 ON p.id = t.projects_id AND user_id = $user_id";
 $result_task = mysqli_query($con,$sql_task);
 $my_tasks = mysqli_fetch_all($result_task, MYSQLI_ASSOC);
+
 
 # Получаем весь список категорий
 $sql= "SELECT p.id, projects_name FROM projects p
@@ -28,18 +27,42 @@ ON p.id = t.projects_id;";
 $result= mysqli_query($con,$sql);
 $count = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
+
 #Получаем имя пользователя
 $sql_un = "SELECT user_name FROM users where id = $user_id;";
 $result_un = mysqli_query($con,$sql_un);
 $user_name = mysqli_fetch_assoc($result_un);
 
 
-$page_content = include_template('index.php', ['my_tasks' => $my_tasks, 'show_complete_tasks' => $show_complete_tasks]);
+//foreach ($projects as $project) {
+//# Проверяем что в GET задан пустой id ИЛИ В GET задано значение id которого несуществует
+//    if (isset($_GET['project']) && $_GET['project'] === '' || isset($_GET['project']) && $_GET['project'] !== $project['id']) {
+//        $page_content = include_template('404.php');
+//    }else {
+//        $page_content = include_template('index.php', ['my_tasks' => $my_tasks, 'show_complete_tasks' => $show_complete_tasks]);
+//        break;
+//    }
+//}
+foreach ($projects as $project) {
+    # проверяем что параметр get существует и равен id проекта. Если нет показываем стр. 404
+    if (!empty($_GET['project']) && ($_GET['project'] === $project['id'])) {
+        $page_content = include_template('index.php',
+            ['my_tasks' => $my_tasks, 'show_complete_tasks' => $show_complete_tasks]);
+        break;
+    } elseif (boolval(isset($_GET['project'])) === false) { // если равно false значит запроса get не было и надо показать все задачи
+        $page_content = include_template('index.php',
+            ['my_tasks' => $my_tasks, 'show_complete_tasks' => $show_complete_tasks]);
+    } elseif (boolval(isset($_GET['project'])) === true) { // если равно true значит в запросе get не уазан параметр и нужно показать стр. 404
+        $page_content = include_template('404.php');
+    } else {
+        $page_content = include_template('404.php');
+    }
+}
+
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'my_tasks' => $my_tasks,
     'projects' => $projects,
-    'count' => $count,
     'show_complete_tasks' => $show_complete_tasks,
     'title' => 'Дела впорядке',
     'user_name' => $user_name,
