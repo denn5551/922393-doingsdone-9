@@ -41,5 +41,5 @@ function is_task_important($time_to_close_task)
     if (hours_left_to_close_task($time_to_close_task) <= 24 && hours_left_to_close_task($time_to_close_task) >= 0) {
         return true;
     }
-        return false;
+    return false;
 }
