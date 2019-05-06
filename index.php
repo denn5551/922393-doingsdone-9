@@ -4,6 +4,15 @@ require_once('data.php');
 require_once('functions.php');
 require_once('init.php');
 
+
+// TODO Сделать функции для всего что расположено ниже.
+
+id_category ($con,$user_id);
+
+task_list_categories ($con, $user_id);
+
+user_name ($con, $user_id);
+
 //foreach ($projects as $project) {
 //# Проверяем что в GET задан пустой id ИЛИ В GET задано значение id которого несуществует
 //    if (isset($_GET['project']) && $_GET['project'] === '' || isset($_GET['project']) && $_GET['project'] !== $project['id']) {
@@ -13,6 +22,7 @@ require_once('init.php');
 //        break;
 //    }
 //}
+
 foreach ($projects as $project) {
     # проверяем что параметр get существует и равен id проекта. Если нет показываем стр. 404
     if (!empty($_GET['project']) && ($_GET['project'] === $project['id'])) {
@@ -27,12 +37,6 @@ foreach ($projects as $project) {
     } else {
         $page_content = include_template('404.php');
     }
-}
-
-
-
-if (isset($_GET['page'])){
-    $page_content = include_template('form-task.php', ['projects' => $projects]);
 }
 
 $layout_content = include_template('layout.php', [

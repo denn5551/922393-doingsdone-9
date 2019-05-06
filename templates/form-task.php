@@ -3,12 +3,13 @@
 
     <form class="form"  action="./add.php" method="post" autocomplete="off"  enctype="multipart/form-data">
         <div class="form__row">
-            <?php $classname = isset($errors['name']) ? "form__input--error" : "";
-            $value = isset($task['name']) ? $task['name'] : ""; ?>
+            <?php $classname = isset($errors['name']) ? "form__input--error" : '';?>
             <label class="form__label" for="name">Название <sup>*</sup></label>
 
-            <input class="form__input <?=$classname;?>" type="text" name="name" id="name" value="<?=$value;?>" placeholder="Введите название">
-            <p class="form__message"><?= isset($errors['name']) ? $errors['name'] : '' ?> </p>
+            <input class="form__input <?= $classname; ?>" type="text" name="name" id="name" value="<?= $_POST['name'] ?? ''; ?>" placeholder="Введите название">
+        <?php if (isset($errors['name'])) : ?>
+            <p class="form__message"><?= $errors['name']; ?> </p>
+        <?php endif; ?>
         </div>
 
         <div class="form__row">
@@ -25,13 +26,13 @@
             <?php $classname = isset($errors['date']) ? "form__input--error" : '';?>
             <label class="form__label" for="date">Дата выполнения</label>
 
-            <input class="form__input form__input--date" type="text" name="date" id="date" value="<?= isset($task['date']) ? $task['date'] : ""; ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
-            <p class="form__message"><?= isset($errors['date']) ? $errors['date'] : '' ?></p>
+            <input class="form__input form__input--date" type="text" name="date" id="date" value="<?= $_POST['date'] ?? ''; ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+            <?php if (isset($errors['date'])) : ?>
+            <p class="form__message"><?= $errors['date']; ?></p>
+            <?php endif; ?>
         </div>
 
         <div class="form__row">
-            <?php $classname = isset($errors['name']) ? "form__input--error" : "";
-            $value = isset($task['name']) ? $task['name'] : ""; ?>
             <label class="form__label" for="file" >Файл</label>
 
             <div class="form__input-file">
@@ -40,7 +41,9 @@
                 <label class="button button--transparent" for="file">
                     <span>Выберите файл</span>
                 </label>
-                <p class="form__message"><?= isset($errors['file']) ? $errors['file'] : "" ?></p>
+                <?php if (isset($errors['file'])) : ?>
+                <p class="form__message"><?= $errors['file']; ?></p>
+                <?php endif; ?>
             </div>
         </div>
 

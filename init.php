@@ -17,7 +17,7 @@ $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 
 # Получаем списко задач для всех категорий/проектов (если пользователь не выбрал конкретную категорию/проект)
-$sql_task = "SELECT projects_id, task_name, status, file, lifetime  FROM task t
+$sql_task = "SELECT projects_id, task_name, status, file, file_name, lifetime  FROM task t
 JOIN projects p
 ON p.id = t.projects_id AND user_id = $user_id";
 $result_task = mysqli_query($con,$sql_task);

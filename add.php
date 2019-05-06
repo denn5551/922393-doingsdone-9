@@ -4,9 +4,14 @@ require_once('data.php');
 require_once('functions.php');
 require_once('init.php');
 
+id_category ($con,$user_id);
+
+task_list_categories ($con, $user_id);
+
+user_name ($con, $user_id);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $task = $_POST;
+
     $required = ['name', 'date'];
     $errors = [];
     foreach ($required as $key) {
@@ -26,9 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    if (count($errors)) {
+    if (!empty($errors)) {
         $page_content = include_template('form-task.php',
-            ['projects' => $projects, 'task' => $task, 'errors' => $errors]);
+            ['projects' => $projects, 'errors' => $errors]);
         $layout_content = include_template('layout.php', [
             'content' => $page_content,
             'my_tasks' => $my_tasks,
@@ -44,8 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $filename = uniqid() . '.jpeg';
         $task['path'] = $filename;
         move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $filename);
-        $sql = 'INSERT INTO task (projects_id, data_task, status, task_name, file, lifetime) VALUES (?, NOW(), 0, ?, ?, ?)';
-        $stmt = db_get_prepare_stmt($con, $sql, [$task['project'], $task['name'], $task['path'], $task['date']]);
+        $sql = 'INSERT INTO task (projects_id, status, task_name, file, file_name, lifetime) VALUES (?, 0, ?, ?, ?, ?)';
+        $stmt = db_get_prepare_stmt($con, $sql, [$_POST['project'], $_POST['name'], $task['path'], $path, $_POST['date']]);
         $res = mysqli_stmt_execute($stmt);
 
         if ($res) {
@@ -53,7 +58,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 } else {
-    header("Location: index.php?page=form-task");
+
+        $page_content = include_template('form-task.php', ['projects' => $projects]);
+
+
+    $layout_content = include_template('layout.php', [
+        'content' => $page_content,
+        'my_tasks' => $my_tasks,
+        'projects' => $projects,
+        'show_complete_tasks' => $show_complete_tasks,
+        'title' => 'Дела впорядке',
+        'user_name' => $user_name,
+    ]);
+
+    print($layout_content);
 }
 
 

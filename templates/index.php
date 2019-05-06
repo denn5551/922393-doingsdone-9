@@ -38,7 +38,7 @@
 
                     <td class="task__date"><?= $task["lifetime"]; ?></td>
                     <?php if (isset($task['file'])) : ?>
-                        <td class="task__file"><a class="download-link" href="<?= "uploads/" . $task['file'] ?>"></a></td>
+                        <td class="task__file"><a class="download-link" href="<?= "uploads/" . $task['file'] ?>"><?= $task["file_name"]; ?></a></td>
                     <?php endif; ?>
                     <td class="task__controls"></td>
                 </tr>
