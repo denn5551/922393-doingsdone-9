@@ -4,14 +4,11 @@ require_once('data.php');
 require_once('functions.php');
 require_once('init.php');
 
+$projects = get_categories ($con,$user_id);
 
-// TODO Сделать функции для всего что расположено ниже.
+$my_tasks = get_tasks ($con, $user_id);
 
-id_category ($con,$user_id);
-
-task_list_categories ($con, $user_id);
-
-user_name ($con, $user_id);
+$user_name = get_user_name ($con, $user_id);
 
 //foreach ($projects as $project) {
 //# Проверяем что в GET задан пустой id ИЛИ В GET задано значение id которого несуществует

@@ -44,32 +44,61 @@ function is_task_important($time_to_close_task)
     return false;
 }
 
-
-function id_category ($con, $user_id)
+/**
+ * Поулчаем асоциативный массив из данных БД для всех строк выборки
+ * $con - подключение к БД
+ * $sql - запрос к БД
+ */
+function fetch_all ($con, $sql)
 {
-    #Получаем id и названия категорий  для пользователя по id
-    $sql ="SELECT projects_name, id  FROM projects where user_id = $user_id;";
     $result = mysqli_query($con, $sql);
     $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
     return $projects;
 }
 
-function task_list_categories ($con, $user_id)
+/**
+ * Поулчаем асоциативный массив из данных БД для одной строки выборки
+ * $con - подключение к БД
+ * $sql - запрос к БД
+ */
+function fetch_one ($con, $sql)
 {
-    # Получаем списко задач для всех категорий/проектов (если пользователь не выбрал конкретную категорию/проект)
-    $sql_task = "SELECT projects_id, task_name, status, file, file_name, lifetime  FROM task t
-    JOIN projects p
-    ON p.id = t.projects_id AND user_id = $user_id";
-    $result_task = mysqli_query($con, $sql_task);
-    $my_tasks = mysqli_fetch_all($result_task, MYSQLI_ASSOC);
-    return $my_tasks;
+    $result = mysqli_query($con,$sql);
+    $user_name = mysqli_fetch_assoc($result);
+    return $user_name;
 }
 
-function user_name ($con, $user_id)
+/**
+ * Получаем id и названия категорий  для пользователя по id
+ * $con - подключение к БД
+ * $user_id - id пользователя
+ */
+function get_categories ($con, $user_id)
 {
-    #Получаем имя пользователя
-    $sql_un = "SELECT user_name FROM users where id = $user_id;";
-    $result_un = mysqli_query($con,$sql_un);
-    $user_name = mysqli_fetch_assoc($result_un);
-    return $user_name;
+    $sql ="SELECT projects_name, id  FROM projects where user_id = $user_id;";
+    return fetch_all ($con, $sql);
+}
+
+/**
+ * Получаем списко задач для всех категорий/проектов (если пользователь не выбрал конкретную категорию/проект)
+ * $con - подключение к БД
+ * $user_id - id пользователя
+ */
+function get_tasks ($con, $user_id)
+{
+    $sql = "SELECT projects_id, task_name, status, file, file_name, lifetime  FROM task t
+    JOIN projects p
+    ON p.id = t.projects_id AND user_id = $user_id";
+    return fetch_all ($con, $sql);
+}
+
+/**
+ * Получаем имя пользователя
+ * $con - подключение к БД
+ * $user_id - id пользователя
+ */
+function get_user_name ($con, $user_id)
+{
+    $sql = "SELECT user_name FROM users where id = $user_id;";
+    return fetch_one ($con, $sql);
 }

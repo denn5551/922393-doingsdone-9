@@ -4,11 +4,11 @@ require_once('data.php');
 require_once('functions.php');
 require_once('init.php');
 
-id_category ($con,$user_id);
+$projects = get_categories ($con,$user_id);
 
-task_list_categories ($con, $user_id);
+$my_tasks = get_tasks ($con, $user_id);
 
-user_name ($con, $user_id);
+$user_name = get_user_name ($con, $user_id);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -32,8 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (!empty($errors)) {
-        $page_content = include_template('form-task.php',
-            ['projects' => $projects, 'errors' => $errors]);
+        $page_content = include_template('form-task.php', ['projects' => $projects, 'errors' => $errors]);
+
         $layout_content = include_template('layout.php', [
             'content' => $page_content,
             'my_tasks' => $my_tasks,
@@ -43,14 +43,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'user_name' => $user_name,
         ]);
 
-        print($layout_content);
-
     } else {
         $filename = uniqid() . '.jpeg';
         $task['path'] = $filename;
         move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $filename);
         $sql = 'INSERT INTO task (projects_id, status, task_name, file, file_name, lifetime) VALUES (?, 0, ?, ?, ?, ?)';
-        $stmt = db_get_prepare_stmt($con, $sql, [$_POST['project'], $_POST['name'], $task['path'], $path, $_POST['date']]);
+        $stmt = db_get_prepare_stmt($con, $sql,
+            [$_POST['project'], $_POST['name'], $task['path'], $path, $_POST['date']]);
         $res = mysqli_stmt_execute($stmt);
 
         if ($res) {
@@ -58,9 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 } else {
-
-        $page_content = include_template('form-task.php', ['projects' => $projects]);
-
+    $page_content = include_template('form-task.php', ['projects' => $projects]);
 
     $layout_content = include_template('layout.php', [
         'content' => $page_content,
@@ -71,9 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'user_name' => $user_name,
     ]);
 
-    print($layout_content);
 }
 
-
+print($layout_content);
 
 
