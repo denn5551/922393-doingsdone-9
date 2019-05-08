@@ -52,8 +52,7 @@ function is_task_important($time_to_close_task)
 function fetch_all ($con, $sql)
 {
     $result = mysqli_query($con, $sql);
-    $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    return $projects;
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
 /**
@@ -64,8 +63,7 @@ function fetch_all ($con, $sql)
 function fetch_one ($con, $sql)
 {
     $result = mysqli_query($con,$sql);
-    $user_name = mysqli_fetch_assoc($result);
-    return $user_name;
+    return mysqli_fetch_assoc($result);
 }
 
 /**
