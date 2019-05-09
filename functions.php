@@ -73,7 +73,7 @@ function fetch_one ($con, $sql)
  */
 function get_categories ($con, $user_id)
 {
-    $sql ="SELECT projects_name, id  FROM projects where user_id = $user_id;";
+    $sql ="SELECT projects_name, id  FROM projects where user_id = '$user_id';";
     return fetch_all ($con, $sql);
 }
 
@@ -86,7 +86,7 @@ function get_tasks ($con, $user_id)
 {
     $sql = "SELECT projects_id, task_name, status, file, file_name, lifetime  FROM task t
     JOIN projects p
-    ON p.id = t.projects_id AND user_id = $user_id";
+    ON p.id = t.projects_id AND user_id = '$user_id'";
     return fetch_all ($con, $sql);
 }
 
@@ -95,8 +95,8 @@ function get_tasks ($con, $user_id)
  * $con - подключение к БД
  * $user_id - id пользователя
  */
-function get_user_name ($con, $user_id)
-{
-    $sql = "SELECT user_name FROM users where id = $user_id;";
-    return fetch_one ($con, $sql);
-}
+//function get_user_name ($con, $user_id)
+//{
+//    $sql = "SELECT user_name FROM users where id = $user_id;";
+//    return fetch_one ($con, $sql);
+//}
