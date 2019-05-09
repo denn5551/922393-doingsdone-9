@@ -29,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!empty($errors)) {
         $page_content = include_template('register.php', ['errors' => $errors]);
-        print($page_content);
     } else {
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $sql = 'INSERT INTO users (email, user_name, password) VALUES (?, ?, ?)';
@@ -41,8 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 } else {
     $page_content = include_template('register.php');
-    print($page_content);
 }
+$layout_content = include_template('layout.php', [
+    'content' => $page_content,
+    'title' => 'Регистрация аккаунта',
+]);
 
+print($layout_content);
 
 

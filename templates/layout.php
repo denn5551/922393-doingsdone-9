@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Дела в порядке</title>
+    <title><?= $title; ?></title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/flatpickr.min.css">
@@ -18,20 +18,32 @@
             <a href="/">
                 <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
-
+            <?php if (!isset($_SESSION['user'])): ?>
+            <div class="main-header__side">
+                <a class="main-header__side-item button button--transparent" href="auth.php">Войти</a>
+            </div>
+            <?php else: ?>
             <div class="main-header__side">
                 <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
-                        <p><?= $user_name['user_name']; ?></p>
-                        <a href="#">Выйти</a>
+                        <p><?= $user_name; ?></p>
+                        <a href="logout.php">Выйти</a>
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
         </header>
 
         <div class="content">
+            <?php if (!isset($_SESSION['user'])): ?>
+            <section class="content__side">
+                <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
+
+                <a class="button button--transparent content__side-button" href="auth.php">Войти</a>
+            </section>
+            <?php else: ?>
             <section class="content__side">
                 <h2 class="content__side-heading">Проекты</h2>
 <!-- TODO можно заменить id на алиас -->
@@ -46,10 +58,10 @@
                         <?php endforeach;?>
                     </ul>
                 </nav>
-
-                <a class="button button--transparent button--plus content__side-button"
-                   href="pages/form-project.html" target="project_add">Добавить проект</a>
+                    <a class="button button--transparent button--plus content__side-button"
+                       href="pages/form-project.html" target="project_add">Добавить проект</a>
             </section>
+            <?php endif; ?>
                 <?= $content; ?>
 
         </div>
@@ -63,9 +75,9 @@
 
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
-
+        <?php if (isset($_SESSION['user'])): ?>
         <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
-
+        <?php endif; ?>
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
             <a class="social__link social__link--facebook" href="#">

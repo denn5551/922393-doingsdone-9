@@ -4,11 +4,17 @@ require_once('data.php');
 require_once('functions.php');
 require_once('init.php');
 
-$projects = get_categories ($con,$user_id);
+session_start();
 
-$my_tasks = get_tasks ($con, $user_id);
+$user_id = $_SESSION['user']['id'];
 
-$user_name = get_user_name ($con, $user_id);
+$user_name = $_SESSION['user']['user_name'];
+
+$projects = get_categories($con, $user_id);
+
+$my_tasks = get_tasks($con, $user_id);
+
+//$user_name = get_user_name ($con, $user_id);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
