@@ -3,7 +3,7 @@ require_once('helpers.php');
 require_once('init.php');
 require_once('functions.php');
 
-session_start();
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $required = ['email', 'password'];
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $page_content = include_template('authorization.php', ['errors' => $errors]);
     } else {
 
-        header("Location: /index.php");
+        header("Location: index.php");
     }
 
 } else {

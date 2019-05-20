@@ -16,7 +16,7 @@
             <label class="form__label" for="password">Пароль <sup>*</sup></label>
 
             <input class="form__input <?= $classname; ?>" type="password" name="password" id="password" value="" placeholder="Введите пароль">
-            <p class="form__message"><?= $errors['password']?? '';; ?></p>
+            <p class="form__message"><?= $errors['password']?? ''; ?></p>
         </div>
 
         <div class="form__row">
@@ -24,7 +24,7 @@
             <label class="form__label" for="name">Имя <sup>*</sup></label>
 
             <input class="form__input <?= $classname; ?>" type="text" name="name" id="name" value="<?= $_POST['name'] ?? ''; ?>" placeholder="Введите имя">
-            <p class="form__message"><?= $errors['name']?? '';; ?></p>
+            <p class="form__message"><?= $errors['name']?? ''; ?></p>
         </div>
 
         <div class="form__row form__row--controls">

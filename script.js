@@ -1,27 +1,27 @@
 'use strict';
 
-var $checkbox = document.getElementsByClassName('show_completed');
+var $checkbox = document.querySelector('.show_completed');
 
-if ($checkbox.length) {
-  $checkbox[0].addEventListener('change', function (event) {
-    var is_checked = +event.target.checked;
+if ($checkbox) {
+  $checkbox.addEventListener('change', function (evt) {
+    var is_checked = +evt.target.checked;
 
-    window.location = '/index.php?show_completed=' + is_checked;
+    window.location = 'index.php?show_completed=' + is_checked;
   });
 }
 
-var $taskCheckboxes = document.getElementsByClassName('tasks');
+var $taskTable = document.querySelector('.tasks');
 
-if ($taskCheckboxes.length) {
+if ($taskTable) {
 
-  $taskCheckboxes[0].addEventListener('change', function (event) {
-    if (event.target.classList.contains('task__checkbox')) {
-      var el = event.target;
+  $taskTable.addEventListener('change', function (evt) {
+    if (evt.target.classList.contains('checkbox__input')) {
+      var el = evt.target;
 
       var is_checked = +el.checked;
       var task_id = el.getAttribute('value');
 
-      var url = '/index.php?task_id=' + task_id + '&check=' + is_checked;
+      var url = 'index.php?task_id=' + task_id + '&check=' + is_checked;
       window.location = url;
     }
   });

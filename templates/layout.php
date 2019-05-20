@@ -18,7 +18,8 @@
             <a href="/">
                 <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
-            <?php if (!isset($_SESSION['user'])): ?>
+
+            <?php if (!isset($is_auth)): ?>
             <div class="main-header__side">
                 <a class="main-header__side-item button button--transparent" href="auth.php">Войти</a>
             </div>
@@ -37,7 +38,7 @@
         </header>
 
         <div class="content">
-            <?php if (!isset($_SESSION['user'])): ?>
+            <?php if (!isset($is_auth)): ?>
             <section class="content__side">
                 <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
 
@@ -50,16 +51,15 @@
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
                         <?php foreach ($projects as $project): ?>
-                            <li class="main-navigation__list-item <?= (isset($_GET['project']) && $_GET['project'] === $project['id'])? 'main-navigation__list-item--active': '' ?>">
-                                <a class="main-navigation__list-item-link" href="index.php?project=<?= $project['id'] ?>"><?= $project['projects_name'] ?></a>
+                            <li class="main-navigation__list-item <?= (isset($_GET['project']) && $_GET['project'] == $project['id']) ? 'main-navigation__list-item--active': '' ?>">
+                                <a class="main-navigation__list-item-link" href="index.php?project=<?= $project['id'] ?>&all"><?= $project['projects_name'] ?></a>
                                 <span class="main-navigation__list-item-count"><?= count_tasks_in_project($project, $my_tasks); ?></span>
-
                             </li>
                         <?php endforeach;?>
                     </ul>
                 </nav>
                     <a class="button button--transparent button--plus content__side-button"
-                       href="pages/form-project.html" target="project_add">Добавить проект</a>
+                       href="prodj.php" target="project_add">Добавить проект</a>
             </section>
             <?php endif; ?>
                 <?= $content; ?>
@@ -75,7 +75,7 @@
 
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
-        <?php if (isset($_SESSION['user'])): ?>
+        <?php if (isset($is_auth)): ?>
         <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
         <?php endif; ?>
         <div class="main-footer__social social">
