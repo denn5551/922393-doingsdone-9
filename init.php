@@ -6,8 +6,9 @@ if ($con == false) {
         . mysqli_connect_error());
 };
 
+session_start();
 
-// $user_id = 10;меняем id юзера для тестов (9 или 10)
+$is_auth = isset($_SESSION['user']);
 
 
 

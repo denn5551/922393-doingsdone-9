@@ -4,7 +4,7 @@ require_once('data.php');
 require_once('functions.php');
 require_once('init.php');
 
-session_start();
+
 
 $user_id = $_SESSION['user']['id'];
 
@@ -12,7 +12,9 @@ $user_name = $_SESSION['user']['user_name'];
 
 $projects = get_categories($con, $user_id);
 
-$my_tasks = get_tasks($con, $user_id);
+$my_tasks = get_tasks($con, $user_id, 0, false);
+
+$page_content = include_template('index.php');
 
 //$user_name = get_user_name ($con, $user_id);
 
@@ -44,9 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'content' => $page_content,
             'my_tasks' => $my_tasks,
             'projects' => $projects,
-            'show_complete_tasks' => $show_complete_tasks,
             'title' => 'Дела впорядке',
             'user_name' => $user_name,
+            'is_auth' => $is_auth,
         ]);
 
     } else {
@@ -69,13 +71,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'content' => $page_content,
         'my_tasks' => $my_tasks,
         'projects' => $projects,
-        'show_complete_tasks' => $show_complete_tasks,
         'title' => 'Дела впорядке',
         'user_name' => $user_name,
+        'is_auth' => $is_auth,
     ]);
 
 }
-
 print($layout_content);
 
 

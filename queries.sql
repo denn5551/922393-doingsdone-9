@@ -75,3 +75,6 @@ WHERE id = 9;
 # обновить название задачи по её идентификатору
 UPDATE task SET task_name = 'Новая задача'
 WHERE id = 9;
+
+# Полнотекстовой поиск. Создание индекса.
+CREATE FULLTEXT INDEX index_task ON task (task_name)
