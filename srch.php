@@ -1,10 +1,9 @@
 <?php
 require_once('helpers.php');
-require_once('data.php');
 require_once('functions.php');
 require_once('init.php');
 
-if (isset($_SESSION['user'])) {
+if ($is_auth) {
 
     $user_id = $_SESSION['user']['id'];
 
@@ -28,14 +27,20 @@ if (isset($_SESSION['user'])) {
         $my_tasks_search = mysqli_fetch_all($res, MYSQLI_ASSOC);
 
         $page_content = include_template('index.php', ['my_tasks' => $my_tasks_search]);
+        $layout_content = include_template('layout.php', [
+            'content' => $page_content,
+            'my_tasks' => $my_tasks,
+            'projects' => $projects,
+            'title' => 'Дела впорядке',
+            'user_name' => $user_name,
+            'is_auth' => $is_auth,
+        ]);
     }
+} else {
+    $page_content = include_template('guest.php');
+    $layout_content = include_template('layout.php', [
+        'content' => $page_content,
+        'title' => 'Главная',
+    ]);
 }
-$layout_content = include_template('layout.php', [
-    'content' => $page_content,
-    'my_tasks' => $my_tasks,
-    'projects' => $projects,
-    'title' => 'Дела впорядке',
-    'user_name' => $user_name,
-    'is_auth' => $is_auth,
-]);
 print($layout_content);

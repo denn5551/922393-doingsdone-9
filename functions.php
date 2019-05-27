@@ -33,45 +33,16 @@ function count_tasks_in_project($category, $task_list)
 }
 
 /**
- * Проверят время до выполнения задачи больше 0 и меньше 24, меньше
- * @param data $time_to_close_task — Время завершения задачи
+ * Проверят время до выполнения задачи больше 0 и меньше 24
+ * @param $time_to_close_task — Время завершения задачи
  * return true - больше 0 и меньше 24
- * return false - меньше 0
- * return 1 - больше 24 и меньше 48
  */
 function is_task_important($time_to_close_task)
 {
     if (hours_left_to_close_task($time_to_close_task) <= 24 && hours_left_to_close_task($time_to_close_task) >= 0) {
         return true;
-    } elseif (hours_left_to_close_task($time_to_close_task) < 0) {
-        return false;
-    } elseif (hours_left_to_close_task($time_to_close_task) > 24 && hours_left_to_close_task($time_to_close_task) <= 48) {
-        return 1;
     }
-
 }
-
-/**
- * Поулчаем асоциативный массив из данных БД для всех строк выборки
- * $con - подключение к БД
- * $sql - запрос к БД
- */
-//function fetch_all ($con, $sql)
-//{
-//    $result = mysqli_query($con, $sql);
-//    return mysqli_fetch_all($result, MYSQLI_ASSOC);
-//}
-
-/**
- * Поулчаем асоциативный массив из данных БД для одной строки выборки
- * $con - подключение к БД
- * $sql - запрос к БД
- */
-//function fetch_one ($con, $sql)
-//{
-//    $result = mysqli_query($con,$sql);
-//    return mysqli_fetch_assoc($result);
-//}
 
 /**
  * Получаем id и названия категорий  для пользователя по id
@@ -87,19 +58,49 @@ function get_categories ($con, $user_id)
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
     return mysqli_fetch_all($res, MYSQLI_ASSOC);
-
-//    return fetch_all ($con, $sql);
 }
 
+/**
+ * Добавляем статус задачи в sql запрос
+ * @param $status - статус
+ * @return string
+ */
+function status_task($status)
+{
+    if ($status === 0){
+        return 'AND status = 0 ';
+    } elseif ($status === 1) {
+        return 'AND status = 1 ';
+    } elseif ($status == false) {
+        return '';
+    }
+}
 
 /**
- * @param $con
- * @param $user_id
- * @param $projects_id
- * @param $status
+ * Добавляем выбор по времене в sql запрос
+ * @param $get - GET запрос
+ * @return string
+ */
+function lifetime_task ($get)
+{
+    if ($get === isset($_GET['today'])){
+        return 'AND lifetime = CURRENT_DATE AND status = 0';
+    } elseif ($get === isset($_GET['tomorrow'])){
+        return 'AND lifetime = CURRENT_DATE + 1 AND status = 0';
+    }  elseif ($get === isset($_GET['overdue'])){
+        return 'AND lifetime < CURRENT_DATE AND lifetime > 0 AND status = 0';
+    }elseif ($get == isset($_GET['all'])){
+        return 'AND lifetime = lifetime AND status = 0';
+    }
+}
+/**
+ * Получаем задачи в зависимости от статуса и id проектеа
+ * @param $con - подключение к бд
+ * @param $user_id - id юзера
+ * @param $projects_id - id проекта
+ * @param $status - нужный статус проекта
  * @return array|null
  */
-
 function get_tasks ($con, $user_id, $status, $projects_id)
 {
     if (!empty($projects_id)) {
@@ -107,13 +108,8 @@ function get_tasks ($con, $user_id, $status, $projects_id)
    JOIN projects p
    ON p.id = t.projects_id  WHERE user_id = ? AND projects_id = ? ";
 
-        if ($status === 0){
-            $sql .= 'AND status = 0 ';
-        } elseif ($status === 1) {
-            $sql .= 'AND status = 1 ';
-        } elseif ($status == false) {
-            $sql .= '';
-        }
+        $sql .= status_task($status);
+
         mysqli_prepare($con, $sql);
         $stmt = db_get_prepare_stmt($con, $sql, [$user_id, $projects_id]);
     } else {
@@ -121,13 +117,8 @@ function get_tasks ($con, $user_id, $status, $projects_id)
     JOIN projects p
     ON p.id = t.projects_id  WHERE user_id = ? ";
 
-        if ($status === 0){
-            $sql .= 'AND status = 0 ';
-        } elseif ($status === 1) {
-            $sql .= 'AND status = 1 ';
-        } elseif ($status == false) {
-            $sql .= '';
-        }
+        $sql .= status_task($status);
+
         mysqli_prepare($con, $sql);
         $stmt = db_get_prepare_stmt($con, $sql, [$user_id]);
     }
@@ -138,59 +129,11 @@ function get_tasks ($con, $user_id, $status, $projects_id)
 }
 
 /**
- * Получаем задачи с определенным статусом статусом
- * @param $con
- * @param $user_id
- * @param $status
- * @return array|null
- */
-//function get_tasks ($con, $user_id, $status)
-//{
-//
-//    $sql = "SELECT t.id, projects_id, task_name, status, file, file_name, lifetime  FROM task t
-//    JOIN projects p
-//    ON p.id = t.projects_id  WHERE user_id = ? ";
-//
-//    if ($status === 0){
-//        $sql .= 'AND status = 0 ';
-//    } elseif ($status === 1) {
-//        $sql .= 'AND status = 1 ';
-//    } elseif ($status == false) {
-//        $sql .= '';
-//    }
-//    mysqli_prepare($con, $sql);
-//    $stmt = db_get_prepare_stmt($con, $sql, [$user_id]);
-//
-//    mysqli_stmt_execute($stmt);
-//    $res = mysqli_stmt_get_result($stmt);
-//    return mysqli_fetch_all($res, MYSQLI_ASSOC);
-//}
-
-/**
- * Получаем все задачи для конкретного проекта (не нужна)
- * @param $con
- * @param $user_id
- * @param $projects_id
- * @return array|null
- */
-//function get_tasks_projects ($con, $user_id, $projects_id)
-//{
-//    $sql = "SELECT t.id, projects_id, task_name, status, file, file_name, lifetime  FROM task t
-//   JOIN projects p
-//   ON p.id = t.projects_id  WHERE user_id = ? AND projects_id = ?";
-//    mysqli_prepare($con, $sql);
-//    $stmt = db_get_prepare_stmt($con, $sql, [$user_id, $projects_id]);
-//    mysqli_stmt_execute($stmt);
-//    $res = mysqli_stmt_get_result($stmt);
-//    return mysqli_fetch_all($res, MYSQLI_ASSOC);
-//}
-
-
-/**
- * @param $con
- * @param $user_id
- * @param $get
- * @param $projects_id
+ * Получаем задачи по времени в зависимости от выбранного фильтра
+ * @param $con - подключение к бд
+ * @param $user_id - id юзера
+ * @param $get - get запрос из фильтров
+ * @param $projects_id - id проекта
  * @return array|null
  */
 function get_lifetime ($con, $user_id, $get, $projects_id){
@@ -199,15 +142,7 @@ function get_lifetime ($con, $user_id, $get, $projects_id){
     JOIN projects p
     ON p.id = t.projects_id  WHERE user_id = ? AND projects_id = ?  ' ;
 
-        if ($get === isset($_GET['today'])){
-            $sql.= 'AND lifetime = CURRENT_DATE AND status = 0';
-        } elseif ($get === isset($_GET['tomorrow'])){
-            $sql.= 'AND lifetime = CURRENT_DATE + 1 AND status = 0';
-        }  elseif ($get === isset($_GET['overdue'])){
-            $sql.= 'AND lifetime < CURRENT_DATE AND status = 0';
-        }elseif ($get == isset($_GET['all'])){
-            $sql.= 'AND lifetime = lifetime AND status = 0';
-        }
+        $sql .= lifetime_task($get);
 
         mysqli_prepare($con, $sql);
         $stmt = db_get_prepare_stmt($con, $sql, [$user_id,  $projects_id]);
@@ -216,15 +151,8 @@ function get_lifetime ($con, $user_id, $get, $projects_id){
     JOIN projects p
     ON p.id = t.projects_id  WHERE user_id = ? ' ;
 
-        if ($get === isset($_GET['today'])){
-            $sql.= 'AND lifetime = CURRENT_DATE AND status = 0';
-        } elseif ($get === isset($_GET['tomorrow'])){
-            $sql.= 'AND lifetime = CURRENT_DATE + 1 AND status = 0';
-        } elseif ($get === isset($_GET['overdue'])){
-            $sql.= 'AND lifetime < CURRENT_DATE AND status = 0';
-        }elseif ($get === isset($_GET['all'])){
-            $sql.= 'AND lifetime = lifetime AND status = 0';
-        }
+        $sql .= lifetime_task($get);
+
         mysqli_prepare($con, $sql);
         $stmt = db_get_prepare_stmt($con, $sql, [$user_id]);
     }

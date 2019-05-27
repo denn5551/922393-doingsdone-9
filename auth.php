@@ -4,7 +4,6 @@ require_once('init.php');
 require_once('functions.php');
 
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $required = ['email', 'password'];
     $errors = [];
@@ -24,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!$user) {
             $errors['email'] = 'Такой пользователь не найден';
         }
+
         if (!count($errors) && $user) {
             if (password_verify($_POST['password'], $user['password'])) {
                 $_SESSION['user'] = $user;
@@ -38,10 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['email'] = 'Введите корректный email';
     }
 
-    if (count($errors)) {
+    if (!empty($errors)) {
         $page_content = include_template('authorization.php', ['errors' => $errors]);
     } else {
-
         header("Location: index.php");
     }
 

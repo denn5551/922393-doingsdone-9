@@ -20,49 +20,51 @@
             </a>
 
             <?php if (!isset($is_auth)): ?>
-            <div class="main-header__side">
-                <a class="main-header__side-item button button--transparent" href="auth.php">Войти</a>
-            </div>
+                <div class="main-header__side">
+                    <a class="main-header__side-item button button--transparent" href="auth.php">Войти</a>
+                </div>
             <?php else: ?>
-            <div class="main-header__side">
-                <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить задачу</a>
+                <div class="main-header__side">
+                    <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить задачу</a>
 
-                <div class="main-header__side-item user-menu">
-                    <div class="user-menu__data">
-                        <p><?= $user_name; ?></p>
-                        <a href="logout.php">Выйти</a>
+                    <div class="main-header__side-item user-menu">
+                        <div class="user-menu__data">
+                            <p><?= $user_name; ?></p>
+                            <a href="logout.php">Выйти</a>
+                        </div>
                     </div>
                 </div>
-            </div>
             <?php endif; ?>
         </header>
 
         <div class="content">
             <?php if (!isset($is_auth)): ?>
-            <section class="content__side">
-                <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
+                <section class="content__side">
+                    <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
 
-                <a class="button button--transparent content__side-button" href="auth.php">Войти</a>
-            </section>
+                    <a class="button button--transparent content__side-button" href="auth.php">Войти</a>
+                </section>
             <?php else: ?>
-            <section class="content__side">
-                <h2 class="content__side-heading">Проекты</h2>
-<!-- TODO можно заменить id на алиас -->
-                <nav class="main-navigation">
-                    <ul class="main-navigation__list">
-                        <?php foreach ($projects as $project): ?>
-                            <li class="main-navigation__list-item <?= (isset($_GET['project']) && $_GET['project'] == $project['id']) ? 'main-navigation__list-item--active': '' ?>">
-                                <a class="main-navigation__list-item-link" href="index.php?project=<?= $project['id'] ?>&all"><?= $project['projects_name'] ?></a>
-                                <span class="main-navigation__list-item-count"><?= count_tasks_in_project($project, $my_tasks); ?></span>
-                            </li>
-                        <?php endforeach;?>
-                    </ul>
-                </nav>
+                <section class="content__side">
+                    <h2 class="content__side-heading">Проекты</h2>
+                    <!-- TODO можно заменить id на алиас -->
+                    <nav class="main-navigation">
+                        <ul class="main-navigation__list">
+                            <?php foreach ($projects as $project): ?>
+                                <li class="main-navigation__list-item <?= (isset($_GET['project']) && $_GET['project'] == $project['id']) ? 'main-navigation__list-item--active' : '' ?>">
+                                    <a class="main-navigation__list-item-link"
+                                       href="index.php?project=<?= $project['id'] ?>&all"><?= $project['projects_name'] ?></a>
+                                    <span class="main-navigation__list-item-count"><?= count_tasks_in_project($project,
+                                            $my_tasks); ?></span>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </nav>
                     <a class="button button--transparent button--plus content__side-button"
                        href="prodj.php" target="project_add">Добавить проект</a>
-            </section>
+                </section>
             <?php endif; ?>
-                <?= $content; ?>
+            <?= $content; ?>
 
         </div>
     </div>
@@ -76,7 +78,7 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
         <?php if (isset($is_auth)): ?>
-        <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
+            <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
         <?php endif; ?>
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
