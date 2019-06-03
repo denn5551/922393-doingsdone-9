@@ -4,7 +4,7 @@ require_once('init.php');
 require_once('functions.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $required = ['email', 'password'];
+    $required = ['password'];
     $errors = [];
     foreach ($required as $key) {
         if (empty($_POST[$key])) {
@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+    if (isset($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $email = mysqli_real_escape_string($con, $_POST['email']);
         $sql = "SELECT * FROM users WHERE email = '$email'";
         $res = mysqli_query($con, $sql);

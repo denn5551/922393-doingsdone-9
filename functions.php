@@ -25,7 +25,7 @@ function count_tasks_in_project($category, $task_list)
 {
     $i = 0;
     foreach ($task_list as $task) {
-        if ($category['id'] == $task['projects_id']) {
+        if ($category['id'] === $task['projects_id']) {
             $i++;
         }
     }
@@ -71,9 +71,8 @@ function status_task($status)
         return 'AND status = 0 ';
     } elseif ($status === 1) {
         return 'AND status = 1 ';
-    } elseif ($status == false) {
-        return '';
     }
+        return '';
 }
 
 /**
@@ -87,11 +86,11 @@ function lifetime_task ($get)
         return 'AND lifetime = CURRENT_DATE AND status = 0';
     } elseif ($get === isset($_GET['tomorrow'])){
         return 'AND lifetime = CURRENT_DATE + 1 AND status = 0';
-    }  elseif ($get === isset($_GET['overdue'])){
+    } elseif ($get === isset($_GET['overdue'])){
         return 'AND lifetime < CURRENT_DATE AND lifetime > 0 AND status = 0';
-    }elseif ($get == isset($_GET['all'])){
-        return 'AND lifetime = lifetime AND status = 0';
     }
+        return 'AND lifetime = lifetime AND status = 0';
+
 }
 /**
  * Получаем задачи в зависимости от статуса и id проектеа

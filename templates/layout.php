@@ -29,7 +29,7 @@
 
                     <div class="main-header__side-item user-menu">
                         <div class="user-menu__data">
-                            <p><?= $user_name; ?></p>
+                            <p><?= strip_tags($user_name); ?></p>
                             <a href="logout.php">Выйти</a>
                         </div>
                     </div>
@@ -51,17 +51,16 @@
                     <nav class="main-navigation">
                         <ul class="main-navigation__list">
                             <?php foreach ($projects as $project): ?>
-                                <li class="main-navigation__list-item <?= (isset($_GET['project']) && $_GET['project'] == $project['id']) ? 'main-navigation__list-item--active' : '' ?>">
+                                <li class="main-navigation__list-item <?= (isset($_GET['project']) && (integer)$_GET['project'] === $project['id']) ? 'main-navigation__list-item--active' : '' ?>">
                                     <a class="main-navigation__list-item-link"
-                                       href="index.php?project=<?= $project['id'] ?>&all"><?= $project['projects_name'] ?></a>
-                                    <span class="main-navigation__list-item-count"><?= count_tasks_in_project($project,
-                                            $my_tasks); ?></span>
+                                       href="index.php?project=<?= $project['id'] ?>&all"><?= strip_tags($project['projects_name']) ?></a>
+                                    <span class="main-navigation__list-item-count"><?= count_tasks_in_project($project, $my_tasks); ?></span>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
                     </nav>
                     <a class="button button--transparent button--plus content__side-button"
-                       href="prodj.php" target="project_add">Добавить проект</a>
+                       href="prodj.php" >Добавить проект</a>
                 </section>
             <?php endif; ?>
             <?= $content; ?>

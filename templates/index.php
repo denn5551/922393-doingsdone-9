@@ -38,14 +38,16 @@
                         <label class="checkbox task__checkbox">
                             <input class="checkbox__input visually-hidden" type="checkbox" name="check"
                                    value="<?= $task['id']; ?>" <?= $task["status"] ? 'checked' : '' ?>>
-                            <span class="checkbox__text"><?= $task["task_name"]; ?></span>
+                            <span class="checkbox__text"><?= strip_tags($task["task_name"]); ?></span>
                         </label>
                     </td>
-                    <td class="task__file"><?php if (isset($task['file'])) : ?><a class="download-link"
-                                                                                  href="<?= "uploads/" . $task['file'] ?>"><?= $task["file_name"]; ?></a><?php endif; ?>
+                    <td class="task__file">
+                        <?php if (isset($task['file'])) : ?>
+                            <a class="download-link" href="<?= "uploads/" . $task['file'] ?>"><?= $task["file_name"]; ?></a>
+                        <?php endif; ?>
                     </td>
-                    <td class="task__date"><?= $task["lifetime"] == 0 ? 'Бессрочно' : $task["lifetime"]; ?></td>
-                    <!--                        <td class="task__controls"></td>-->
+                    <td class="task__date"><?= (integer)$task["lifetime"] === 0 ? 'Бессрочно' : $task["lifetime"]; ?></td>
+                    <!--<td class="task__controls"></td>-->
                 </tr>
 
             <?php endforeach; ?>

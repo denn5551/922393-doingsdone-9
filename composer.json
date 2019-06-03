@@ -1,0 +1,7 @@
+{
+    "name": "denn5/922393-doingsdone-9",
+    "description": "website",
+    "require": {
+        "swiftmailer/swiftmailer": "^6.2"
+    }
+}

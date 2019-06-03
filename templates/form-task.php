@@ -18,7 +18,7 @@
 
             <select class="form__input form__input--select" name="project" id="project">
                 <?php foreach ($projects as $project): ?>
-                    <option value="<?= $project['id']; ?>"><?= $project['projects_name']; ?></option>
+                    <option value="<?= $project['id']; ?>"><?= strip_tags($project['projects_name']); ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
@@ -28,7 +28,7 @@
             <label class="form__label" for="date">Дата выполнения</label>
 
             <input class="form__input form__input--date <?= $classname; ?>" type="text" name="date" id="date"
-                   value="<?= $_POST['date'] ?? ''; ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+                   value="<?= isset($_POST['date']) ? $_POST['date'] : ''; ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
             <?php if (isset($errors['date'])) : ?>
                 <p class="form__message"><?= $errors['date']; ?></p>
             <?php endif; ?>

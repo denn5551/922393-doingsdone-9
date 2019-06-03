@@ -27,14 +27,9 @@ if ($is_auth) {
         $my_tasks_search = mysqli_fetch_all($res, MYSQLI_ASSOC);
 
         $page_content = include_template('index.php', ['my_tasks' => $my_tasks_search]);
-        $layout_content = include_template('layout.php', [
-            'content' => $page_content,
-            'my_tasks' => $my_tasks,
-            'projects' => $projects,
-            'title' => 'Дела впорядке',
-            'user_name' => $user_name,
-            'is_auth' => $is_auth,
-        ]);
+
+    } else {
+        $page_content = include_template('index.php', ['my_tasks' => $my_tasks]);
     }
 } else {
     $page_content = include_template('guest.php');
@@ -42,5 +37,15 @@ if ($is_auth) {
         'content' => $page_content,
         'title' => 'Главная',
     ]);
+    print($layout_content);
+    exit();
 }
+$layout_content = include_template('layout.php', [
+    'content' => $page_content,
+    'my_tasks' => $my_tasks,
+    'projects' => $projects,
+    'title' => 'Дела впорядке',
+    'user_name' => $user_name,
+    'is_auth' => $is_auth,
+]);
 print($layout_content);

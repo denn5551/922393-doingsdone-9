@@ -4,7 +4,6 @@ require_once('functions.php');
 require_once('init.php');
 
 
-
 if ($is_auth) {
 
     $user_id = $_SESSION['user']['id'];
@@ -21,7 +20,7 @@ if ($is_auth) {
 
     foreach ($projects as $project) {
         if (isset($_GET['project'])) {
-            if (($_GET['project']) == $project['id']) {
+            if (((integer)$_GET['project']) === $project['id']) {
                 # Фильтры по задачам для конкретного проекта
                 $all_get_filters = ['all','today','tomorrow', 'overdue'];
                 foreach ($all_get_filters as $get){
@@ -36,9 +35,9 @@ if ($is_auth) {
                 $page_content = include_template('404.php');
             }
         } else {
-                    $my_tasks_all_tasks = get_tasks($con, $user_id, 0, false);
-                    $page_content = include_template('index.php',
-                        ['my_tasks' => $my_tasks_all_tasks, 'show_complete_tasks' => $show_complete_tasks]);
+                $my_tasks_all_tasks = get_tasks($con, $user_id, 0, false);
+                $page_content = include_template('index.php',
+                    ['my_tasks' => $my_tasks_all_tasks, 'show_complete_tasks' => $show_complete_tasks]);
         }
     }
 
@@ -50,6 +49,7 @@ if ($is_auth) {
             ['my_tasks' => $my_tasks_completed, 'show_complete_tasks' => $show_complete_tasks]);
 
     }
+
 # Фильтры для всех задач на главной
     if (isset($_GET['all']) || isset($_GET['today']) || isset($_GET['tomorrow']) || isset($_GET['overdue'])){
         $all_get_filters = ['all','today','tomorrow', 'overdue'];
@@ -82,7 +82,6 @@ if ($is_auth) {
         'user_name' => $user_name,
         'is_auth' => $is_auth,
     ]);
-
 
 } else {
     $page_content = include_template('guest.php');

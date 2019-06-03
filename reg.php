@@ -8,12 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $required = ['name', 'password'];
     $errors = [];
+
     foreach ($required as $key) {
         if (empty($_POST[$key])) {
             $errors[$key] = 'Это поле надо заполнить';
         }
     }
-    if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+
+    if (isset($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $email = mysqli_real_escape_string($con, $_POST['email']);
         $sql = "SELECT id FROM users WHERE email = '$email'";
         $res = mysqli_query($con, $sql);

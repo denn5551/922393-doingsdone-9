@@ -15,7 +15,6 @@ if ($is_auth) {
 
     $page_content = include_template('index.php');
 
-
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $required = ['name'];
@@ -36,25 +35,28 @@ if ($is_auth) {
             if ($file_type !== 'image/jpeg') {
                 $errors['file'] = 'Загрузите файл в формате jpeg';
             }
-
         }
         // проверяем что бы дата была больше или равна текущей
-        $time_post = strtotime($_POST['date']);
-        $time_now = strtotime(date('Y-m-d'));
-        if ($time_post < $time_now) {
-            $errors['date'] = 'Укажите правильную дату';
-        }
 
+        if (!empty($_POST['date'])){
+            $time_post = strtotime($_POST['date']);
+            $time_now = strtotime(date('Y-m-d'));
+            if ($time_post < $time_now) {
+                $errors['date'] = 'Укажите правильную дату';
+            }
+        } else {
+            $_POST['date'] = 0;
+        }
+        // проверяем есть ли ошибки
         if (!empty($errors)) {
             $page_content = include_template('form-task.php', ['projects' => $projects, 'errors' => $errors]);
         } else {
             $task['path'] = $filename;
             move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $filename);
-            $sql = 'INSERT INTO task (projects_id, status, task_name, file, file_name, lifetime) VALUES (?, 0, ?, ?, ?, ?)';
+            $sql = 'INSERT INTO task (projects_id, data_task, status, task_name, file, file_name, lifetime) VALUES (?, NOW(), 0, ?, ?, ?, ?)';
             $stmt = db_get_prepare_stmt($con, $sql,
                 [$_POST['project'], $_POST['name'], $task['path'], $path, $_POST['date']]);
             $res = mysqli_stmt_execute($stmt);
-
             if ($res) {
                 header("Location: index.php");
             }
@@ -69,6 +71,7 @@ if ($is_auth) {
         'title' => 'Главная',
     ]);
     print($layout_content);
+    exit();
 }
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
