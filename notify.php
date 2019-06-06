@@ -19,7 +19,6 @@ $sql = "SELECT t.projects_id, t.`status`, u.id, u.user_name, u.email  FROM task 
 
 $res = mysqli_query($con, $sql);
 
-
 if ($res && mysqli_num_rows($res)) {
 
     $users = mysqli_fetch_all($res, MYSQLI_ASSOC);
@@ -52,6 +51,7 @@ if ($res && mysqli_num_rows($res)) {
 
         $result = $mailer->send($message);
     }
+
     if ($result) {
         print("Рассылка успешно отправлена");
     } else {

@@ -15,7 +15,7 @@ if ($is_auth) {
 
     $page_content = include_template('index.php');
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $required = ['name'];
         $errors = [];

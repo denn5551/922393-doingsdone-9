@@ -14,7 +14,7 @@ if ($is_auth) {
     $my_tasks = get_tasks($con, $user_id, 0, false);
 
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         foreach ($projects as $project) {
             if (trim($_POST['name']) === $project['projects_name']) {
