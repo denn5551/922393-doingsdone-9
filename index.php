@@ -30,13 +30,23 @@ if ($is_auth) {
                             ['my_tasks' => $my_tasks_completed, 'show_complete_tasks' => $show_complete_tasks]);
                         break 2;
                     }
+
+                    # Чек бокс $show_complete
+                    if ($_GET['project'] && (!empty($_GET['show_completed']) == 1)){
+                        $my_tasks_completed = get_tasks ($con, $user_id, false, $project['id']);
+                        $show_complete_tasks = 1;
+                        $page_content = include_template('index.php',
+                            ['my_tasks' => $my_tasks_completed, 'show_complete_tasks' => $show_complete_tasks]);
+                        break;
+                    }
                 }
             } else {
                 $page_content = include_template('404.php');
             }
         } else {
                 $my_tasks_all_tasks = get_tasks($con, $user_id, 0, false);
-                $page_content = include_template('index.php',
+
+            $page_content = include_template('index.php',
                     ['my_tasks' => $my_tasks_all_tasks, 'show_complete_tasks' => $show_complete_tasks]);
         }
     }
@@ -63,6 +73,15 @@ if ($is_auth) {
         }
     }
 
+# Удалить задачу
+        if (isset($_GET['delete'])){
+            $id_task_delete = $_GET['id'];
+            $sql = "DELETE FROM task WHERE id = ?";
+            mysqli_prepare($con, $sql);
+            $stmt = db_get_prepare_stmt($con, $sql, [$id_task_delete]);
+            $res = mysqli_stmt_execute($stmt);
+            header("Location: index.php");
+        }
 # Пометить задачу как выполненую
     if(isset($_GET['check'])){
         $id_task = $_GET['task_id'];

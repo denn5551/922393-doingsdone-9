@@ -492,6 +492,17 @@ a:focus {
   border-collapse: collapse;
 }
 
+.task-description {
+  font-weight: 200;
+  margin-bottom: 0;
+}
+
+.tasks-delete {
+  border: solid 2px #eee;
+  border-radius: 5px;
+  padding:   5px 10px;
+}
+
 .tasks__item:first-child td {
   border-top: 1px solid #d7dbe8;
 }

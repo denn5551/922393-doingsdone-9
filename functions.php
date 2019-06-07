@@ -103,7 +103,7 @@ function lifetime_task ($get)
 function get_tasks ($con, $user_id, $status, $projects_id)
 {
     if (!empty($projects_id)) {
-        $sql = "SELECT t.id, projects_id, task_name, status, file, file_name, lifetime  FROM task t
+        $sql = "SELECT t.id, projects_id, task_name, task_description, status, file, file_name, lifetime  FROM task t
    JOIN projects p
    ON p.id = t.projects_id  WHERE user_id = ? AND projects_id = ? ";
 
@@ -112,7 +112,7 @@ function get_tasks ($con, $user_id, $status, $projects_id)
         mysqli_prepare($con, $sql);
         $stmt = db_get_prepare_stmt($con, $sql, [$user_id, $projects_id]);
     } else {
-        $sql = "SELECT t.id, projects_id, task_name, status, file, file_name, lifetime  FROM task t
+        $sql = "SELECT t.id, projects_id, task_name, task_description, status, file, file_name, lifetime  FROM task t
     JOIN projects p
     ON p.id = t.projects_id  WHERE user_id = ? ";
 
@@ -137,7 +137,7 @@ function get_tasks ($con, $user_id, $status, $projects_id)
  */
 function get_lifetime ($con, $user_id, $get, $projects_id){
     if (!empty($projects_id)) {
-        $sql = 'SELECT t.id, projects_id, task_name, status, file, file_name, lifetime  FROM task t
+        $sql = 'SELECT t.id, projects_id, task_name, task_description, status, file, file_name, lifetime  FROM task t
     JOIN projects p
     ON p.id = t.projects_id  WHERE user_id = ? AND projects_id = ?  ' ;
 
