@@ -1,6 +1,7 @@
 <main class="content__main">
-    <h2 class="content__main-heading">Добавление задачи</h2>
-
+    <h2 class="content__main-heading">Редактирование задачи</h2>
+<p>Здесь вы можете отредактировать вашу задачу. Для этого измените одно из полей или все поля сразу.</p>
+<p>Если вы хотите перенести задачу в другой проект, то просто выбирете новый проект в соответствующем поле.</p>
     <?php if (isset($_GET['success'])): ?>
         <div id="my-alert" class="alert alert-success" role="alert">
             Задача добавлена успешно!
@@ -17,7 +18,7 @@
         </script>
     <?php endif; ?>
 
-    <form class="form" action="add.php" method="post" autocomplete="off" enctype="multipart/form-data">
+    <form class="form" action="task.php" method="post" autocomplete="off" enctype="multipart/form-data">
         <div class="form__row">
             <?php $classname = isset($errors['name']) ? "form__input--error" : ''; ?>
             <label class="form__label" for="name">Название <sup>*</sup></label>
@@ -69,18 +70,11 @@
                 <?php endif; ?>
             </div>
         </div>
-                <div class="row mb-5">
-                    <div class="form__row form__row--controls col-lg-6">
-                        <input class="button" type="submit" name="button1" value="Добавить">
-                    </div>
-
-                    <div class="form__row form__row--controls col-lg-6">
-                        <input class="button" type="submit" name="button2" value="Добавить еще">
-                    </div>
-
+        <div class="row mb-5">
+            <div class="form__row form__row--controls col-lg-6">
+                <input class="button" type="submit" name="button1" value="Сохранить">
             </div>
-
-
+        </div>
     </form>
 
 </main>

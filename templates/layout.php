@@ -16,7 +16,7 @@
 <div class="page-wrapper">
     <div class="container container--with-sidebar">
         <header class="main-header">
-            <a href="/">
+            <a href="http://mybisnes.local/index.php?page=1">
                 <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
@@ -30,7 +30,7 @@
 
                     <div class="main-header__side-item user-menu">
                         <div class="user-menu__data">
-                            <p><?= strip_tags($user_name); ?></p>
+                            <a href="user.php"><?= strip_tags($user_name); ?></a>
                             <a href="logout.php">Выйти</a>
                         </div>
                     </div>
@@ -40,13 +40,13 @@
 
         <div class="content">
             <?php if (!isset($is_auth)): ?>
-                <section class="content__side">
+                <section class="content__sidecol-lg-3">
                     <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
 
                     <a class="button button--transparent content__side-button" href="auth.php">Войти</a>
                 </section>
             <?php else: ?>
-                <section class="content__side">
+                <section class="content__side col-lg-3">
                     <h2 class="content__side-heading">Проекты</h2>
                     <!-- TODO можно заменить id на алиас -->
                     <nav class="main-navigation">

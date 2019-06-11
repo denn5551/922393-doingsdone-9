@@ -10,6 +10,15 @@
         </div>
     <?php endif; ?>
 
+    <?php if (isset($_GET['success_del'])): ?>
+        <div class="alert alert-success" role="alert">
+            Задача удалена!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php endif; ?>
+
     <form class="search-form" action="srch.php" method="get" autocomplete="off">
         <input class="search-form__input" type="text" name="search" value="" placeholder="Поиск по задачам">
 
@@ -47,7 +56,6 @@
                             <input class="checkbox__input visually-hidden" type="checkbox" name="check"
                                    value="<?= $task['id']; ?>" <?= $task["status"] ? 'checked' : '' ?>>
                             <span class="checkbox__text"><?= strip_tags($task["task_name"]); ?>
-
                                 <?php if (!empty($task['task_description'])) : ?>
                                 <br><p class="task-description"> <?= strip_tags($task["task_description"]); ?> </p>
                                 <?php endif; ?>
@@ -61,21 +69,16 @@
                     </td>
                     <td class="task__date"><?= (integer)$task["lifetime"] === 0 ? 'Бессрочно' : $task["lifetime"]; ?></td>
                     <td class="task__controls"><a href="index.php?delete&id=<?= $task['id']; ?>" class="tasks-delete ">&times;</a></td>
+                    <td class="task__controls"><a href="index.php?edit=<?= $task['id']; ?>" class="tasks-delete" ><img
+                                    src="img/edit.jpg" alt="" width="15px"></a></td>
                 </tr>
 
             <?php endforeach; ?>
         <?php endif ?>
     </table>
-    <nav aria-label="Page navigation example ">
-        <ul class="pagination justify-content-center mt-3">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
+
+<?=include_template('pagination.php', [
+    'pages' => $pages,
+    'pages_count' => $pages_count,
+    'cur_page' => $cur_page
+]); ?>

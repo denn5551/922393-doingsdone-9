@@ -18,6 +18,7 @@ CREATE TABLE task
     data_task     DATE,
     status        INT,
     task_name     CHAR(255) NOT NULL,
+    task_description CHAR(255),
     file          CHAR(255),
     file_name     CHAR(255),
     lifetime      DATE
