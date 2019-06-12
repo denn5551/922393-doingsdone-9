@@ -128,23 +128,6 @@ if ($is_auth) {
 
     }
 
-    # Редактировать задачу
-    if (isset($_GET['edit'])){
-        $sql = 'SELECT t.id, projects_id, task_name, task_description, status, file, file_name, lifetime  FROM task t
-    JOIN projects p
-    ON p.id = t.projects_id  WHERE user_id = ? AND t.id = ?';
-
-        mysqli_prepare($con, $sql);
-        $stmt = db_get_prepare_stmt($con, $sql, [$user_id, $_GET['edit']]);
-        mysqli_stmt_execute($stmt);
-        $res = mysqli_stmt_get_result($stmt);
-        $my_tasks_edit = mysqli_fetch_all($res, MYSQLI_ASSOC);
-
-        $page_content = include_template('task.php', [
-            'my_tasks' => $my_tasks_edit,
-        ]);
-    }
-
     $layout_content = include_template('layout.php', [
         'content' => $page_content,
         'my_tasks' => $my_tasks,

@@ -18,7 +18,7 @@ if ($is_auth) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $required = ['name'];
-        var_dump($required);
+
         $errors = [];
         foreach ($required as $key) {
             if (empty($_POST[$key])) {

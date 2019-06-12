@@ -19,6 +19,15 @@
         </div>
     <?php endif; ?>
 
+    <?php if (isset($_GET['success-task'])): ?>
+        <div class="alert alert-success" role="alert">
+            Задача изменена успешно!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php endif; ?>
+
     <form class="search-form" action="srch.php" method="get" autocomplete="off">
         <input class="search-form__input" type="text" name="search" value="" placeholder="Поиск по задачам">
 
@@ -64,13 +73,14 @@
                     </td>
                     <td class="task__file">
                         <?php if (isset($task['file'])) : ?>
-                            <a class="download-link" href="<?= "uploads/" . $task['file'] ?>"><?= $task["file_name"]; ?></a>
+                            <a data-fancybox="images" href="<?= "uploads/" . $task['file'] ?>"  data-caption="fox1"><?= $task["file_name"]; ?></a>
+<!--                            <a class="download-link" href="--><?//= "uploads/" . $task['file'] ?><!--">--><?//= $task["file_name"]; ?><!--</a>-->
                         <?php endif; ?>
                     </td>
                     <td class="task__date"><?= (integer)$task["lifetime"] === 0 ? 'Бессрочно' : $task["lifetime"]; ?></td>
-                    <td class="task__controls"><a href="index.php?delete&id=<?= $task['id']; ?>" class="tasks-delete ">&times;</a></td>
-                    <td class="task__controls"><a href="index.php?edit=<?= $task['id']; ?>" class="tasks-delete" ><img
+                    <td class="task__controls"><a href="task.php?task-edit=<?= $task['id']; ?>" class="tasks-delete" ><img
                                     src="img/edit.jpg" alt="" width="15px"></a></td>
+                    <td class="task__controls"><a href="index.php?delete&id=<?= $task['id']; ?>" class="tasks-delete ">&times;</a></td>
                 </tr>
 
             <?php endforeach; ?>
