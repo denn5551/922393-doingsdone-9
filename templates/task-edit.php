@@ -4,7 +4,7 @@
 <p>Если вы хотите перенести задачу в другой проект, то просто выбирете новый проект в соответствующем поле.</p>
     <?php if (isset($_GET['success'])): ?>
         <div id="my-alert" class="alert alert-success" role="alert">
-            Задача добавлена успешно!
+            Файл удален!
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -20,7 +20,7 @@
 
     <?php foreach ($my_tasks as $task): ?>
 
-    <form class="form" action="task.php" method="post" autocomplete="off" enctype="multipart/form-data">
+    <form class="form" action="/controller/task.php" method="post" autocomplete="off" enctype="multipart/form-data">
         <div class="form__row">
             <?php $classname = isset($errors['name']) ? "form__input--error" : ''; ?>
             <label class="form__label" for="name">Название <sup>*</sup></label>
@@ -46,6 +46,9 @@
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Описание проекта</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="155" name="textarea" placeholder=""><?= $task['task_description']; ?></textarea>
+            <?php if (isset($errors['textarea'])) : ?>
+                <p class="form__message"><?= $errors['textarea']; ?> </p>
+            <?php endif; ?>
         </div>
 
         <div class="form__row">
@@ -65,12 +68,15 @@
             <div class="form__input-file">
                 <input class="visually-hidden" type="file" name="file" id="file" value="">
 
+                <?php if (empty($task['file'])) : ?>
                 <label class="button button--transparent" for="file">
                     <span>Выберите файл</span>
                 </label>
+                <?php endif; ?>
 
-                <?php if (isset($task['file'])) : ?>
-                    <a class="download-link" href="<?= "uploads/" . $task['file'] ?>"><?= $task["file_name"]; ?></a>
+                <?php if (!empty($task['file'])) : ?>
+                    <a data-fancybox="images" href="<?= "uploads/" . $task['file'] ?>"  data-caption="fox1"><?= $task["file_name"]; ?></a>
+                    <a href="task.php?delete-file=<?= $task['file']; ?>&id=<?= $task['id']; ?>" class="tasks-delete ">&times;</a>
                 <?php endif; ?>
 
                 <?php if (isset($errors['file'])) : ?>

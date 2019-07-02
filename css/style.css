@@ -498,9 +498,8 @@ a:focus {
 }
 
 .tasks-delete {
-  border: solid 2px #eee;
-  border-radius: 5px;
-  padding:   5px 10px;
+  padding:   5px 8px;
+  color: red;
 }
 
 .tasks__item:first-child td {

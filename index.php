@@ -16,6 +16,7 @@ if ($is_auth) {
 
     $page_content = include_template('index.php');
 
+
     $show_complete_tasks = 0;
 
     foreach ($projects as $project) {
@@ -32,8 +33,8 @@ if ($is_auth) {
                     }
 
                     # Чек бокс $show_complete
-                    if ($_GET['project'] && (!empty($_GET['show_completed']) == 1)) {
-                        $my_tasks_completed = get_tasks($con, $user_id, false, $project['id']);
+                    if ($_GET['project'] && (!empty($_GET['show_completed']) === 1)) {
+                        $my_tasks_completed = get_tasks($con, $user_id, 1, $project['id']);
                         $show_complete_tasks = 1;
                         $page_content = include_template('index.php',
                             ['my_tasks' => $my_tasks_completed, 'show_complete_tasks' => $show_complete_tasks]);
@@ -80,7 +81,10 @@ if ($is_auth) {
         mysqli_prepare($con, $sql);
         $stmt = db_get_prepare_stmt($con, $sql, [$id_task_delete]);
         $res = mysqli_stmt_execute($stmt);
-        header("Location: index.php?success_del=true");
+
+        unlink ('uploads/' . $_GET['file']);
+
+        header("Location: /index.php?success_del=true");
     }
 # Пометить задачу как выполненую
     if (isset($_GET['check'])) {
@@ -90,7 +94,7 @@ if ($is_auth) {
         mysqli_prepare($con, $sql);
         $stmt = db_get_prepare_stmt($con, $sql, [$id_task]);
         $res = mysqli_stmt_execute($stmt);
-        header("Location: index.php");
+        header("Location: /index.php");
     }
 
     #Постраничный выод задач

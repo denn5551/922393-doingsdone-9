@@ -1,7 +1,7 @@
 <main class="content__main">
     <h2 class="content__main-heading">Регистрация аккаунта</h2>
 
-    <form class="form" action="/reg.php" method="post" autocomplete="off" enctype="multipart/form-data">
+    <form class="form" action="/controller/reg.php" method="post" autocomplete="off" enctype="multipart/form-data">
         <div class="form__row">
             <?php $classname = isset($errors['email']) ? "form__input--error" : ''; ?>
             <label class="form__label" for="email">E-mail <sup>*</sup></label>

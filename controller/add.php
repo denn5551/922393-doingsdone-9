@@ -1,7 +1,7 @@
 <?php
-require_once('helpers.php');
-require_once('functions.php');
-require_once('init.php');
+require_once('../helpers.php');
+require_once('../functions.php');
+require_once('../init.php');
 
 if ($is_auth) {
 
@@ -53,15 +53,15 @@ if ($is_auth) {
             $page_content = include_template('form-task.php', ['projects' => $projects, 'errors' => $errors]);
         } else {
             $task['path'] = $filename;
-            move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $filename);
+            move_uploaded_file($_FILES['file']['tmp_name'], '../uploads/' . $filename);
             $sql = 'INSERT INTO task (projects_id, data_task, status, task_name, task_description, file, file_name, lifetime) VALUES (?, NOW(), 0, ?, ?, ?, ?, ?)';
             $stmt = db_get_prepare_stmt($con, $sql,
                 [$_POST['project'], $_POST['name'], $_POST['textarea'], $task['path'], $path, $_POST['date']]);
             $res = mysqli_stmt_execute($stmt);
             if ($res && isset($_POST["button2"])) {
-                header("Location: add.php?success=true");
+                header("Location: /controller/add.php?success=true");
             } elseif ($res) {
-                header("Location: index.php?success=true");
+                header("Location: /index.php?success=true");
             }
         }
     } else {

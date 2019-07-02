@@ -160,3 +160,22 @@ function get_lifetime ($con, $user_id, $get, $projects_id){
     $res = mysqli_stmt_get_result($stmt);
     return mysqli_fetch_all($res, MYSQLI_ASSOC);
 }
+
+/**
+ * Получаем данные по одной задаче по id
+ * @param $con - подключение
+ * @param $user_id - id .pthf
+ * @param $id - id задачи
+ * @return array|null - данные по одной задаче
+ */
+function one_task ($con, $user_id, $id) {
+    $sql = 'SELECT t.id, projects_id, task_name, task_description, status, file, file_name, lifetime  FROM task t
+    JOIN projects p
+    ON p.id = t.projects_id  WHERE user_id = ? AND t.id = ?';
+
+    mysqli_prepare($con, $sql);
+    $stmt = db_get_prepare_stmt($con, $sql, [$user_id, $id]);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    return mysqli_fetch_all($res, MYSQLI_ASSOC);
+}

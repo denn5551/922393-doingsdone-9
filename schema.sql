@@ -33,6 +33,8 @@ CREATE TABLE users
     password  CHAR(255)
 );
 
+CREATE FULLTEXT INDEX task_ft_search
+ON task(task_name);
 CREATE INDEX projects ON projects(projects_name);
 CREATE INDEX task ON task(task_name);
 

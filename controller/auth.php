@@ -1,7 +1,7 @@
 <?php
-require_once('helpers.php');
-require_once('init.php');
-require_once('functions.php');
+require_once('../helpers.php');
+require_once('../init.php');
+require_once('../functions.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $required = ['password'];
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($errors)) {
         $page_content = include_template('authorization.php', ['errors' => $errors]);
     } else {
-        header("Location: index.php");
+        header("Location: /index.php");
     }
 
 } else {

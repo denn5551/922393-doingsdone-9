@@ -1,7 +1,7 @@
 <?php
-require_once('helpers.php');
-require_once('functions.php');
-require_once('init.php');
+require_once('../helpers.php');
+require_once('../functions.php');
+require_once('../init.php');
 
 if ($is_auth) {
 
@@ -20,7 +20,7 @@ if ($is_auth) {
                 JOIN projects p
                 ON p.id = t.projects_id  WHERE user_id = $user_id
                 AND MATCH(task_name) AGAINST(?) ";
-        mysqli_prepare($con, $sql);
+
         $stmt = db_get_prepare_stmt($con, $sql, [$search]);
         mysqli_stmt_execute($stmt);
         $res = mysqli_stmt_get_result($stmt);

@@ -1,7 +1,7 @@
 <?php
-require_once('helpers.php');
-require_once('functions.php');
-require_once('init.php');
+require_once('../helpers.php');
+require_once('../functions.php');
+require_once('../init.php');
 
 
 if ($is_auth) {
@@ -62,7 +62,7 @@ if ($is_auth) {
             $stmt = db_get_prepare_stmt($con, $sql, [$_POST['name'], $_POST['email'], $user_id]);
             $res = mysqli_stmt_execute($stmt);
             if ($res){
-                header("Location: user.php?success=true");
+                header("Location: /controller/user.php?success=true");
             }
         }
 

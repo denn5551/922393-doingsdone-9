@@ -1,7 +1,7 @@
 <?php
-require_once('helpers.php');
-require_once('functions.php');
-require_once('init.php');
+require_once('../helpers.php');
+require_once('../functions.php');
+require_once('../init.php');
 
 if ($is_auth) {
 
@@ -34,7 +34,7 @@ if ($is_auth) {
             $res = mysqli_stmt_execute($stmt);
 
             if ($res) {
-                header("Location: index.php");
+                header("Location: /index.php?success_project=true");
             }
         }
     } else {

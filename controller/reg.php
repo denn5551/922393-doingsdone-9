@@ -1,7 +1,7 @@
 <?php
-require_once('helpers.php');
-require_once('init.php');
-require_once('functions.php');
+require_once('../helpers.php');
+require_once('../init.php');
+require_once('../functions.php');
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = db_get_prepare_stmt($con, $sql, [$_POST['email'], $_POST['name'], $password]);
         $res = mysqli_stmt_execute($stmt);
         if ($res) {
-            header("Location: index.php");
+            header("Location: /index.php");
         }
     }
 } else {

@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title><?= $title; ?></title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/flatpickr.min.css">
-    <link rel="stylesheet" href="css/jquery.fancybox.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/flatpickr.min.css">
+    <link rel="stylesheet" href="../css/jquery.fancybox.min.css">
 </head>
 
 <body>
@@ -18,21 +18,21 @@
     <div class="container container--with-sidebar">
         <header class="main-header">
             <a href="http://mybisnes.local/index.php?page=1">
-                <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
+                <img src="../img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
             <?php if (!isset($is_auth)): ?>
                 <div class="main-header__side">
-                    <a class="main-header__side-item button button--transparent" href="auth.php">Войти</a>
+                    <a class="main-header__side-item button button--transparent" href="/controller/auth.php">Войти</a>
                 </div>
             <?php else: ?>
                 <div class="main-header__side">
-                    <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить задачу</a>
+                    <a class="main-header__side-item button button--plus open-modal" href="/controller/add.php">Добавить задачу</a>
 
                     <div class="main-header__side-item user-menu">
                         <div class="user-menu__data">
-                            <a href="user.php"><?= strip_tags($user_name); ?></a>
-                            <a href="logout.php">Выйти</a>
+                            <a href="/controller/user.php"><?= strip_tags($user_name); ?></a>
+                            <a href="/controller/logout.php">Выйти</a>
                         </div>
                     </div>
                 </div>
@@ -41,10 +41,10 @@
 
         <div class="content">
             <?php if (!isset($is_auth)): ?>
-                <section class="content__sidecol-lg-3">
+                <section class="content__side col-lg-3">
                     <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
 
-                    <a class="button button--transparent content__side-button" href="auth.php">Войти</a>
+                    <a class="button button--transparent content__side-button" href="/controller/auth.php">Войти</a>
                 </section>
             <?php else: ?>
                 <section class="content__side col-lg-3">
@@ -55,14 +55,16 @@
                             <?php foreach ($projects as $project): ?>
                                 <li class="main-navigation__list-item <?= (isset($_GET['project']) && (integer)$_GET['project'] === $project['id']) ? 'main-navigation__list-item--active' : '' ?>">
                                     <a class="main-navigation__list-item-link"
-                                       href="index.php?project=<?= $project['id'] ?>&all"><?= strip_tags($project['projects_name']) ?></a>
+                                       href="/index.php?project=<?= $project['id'] ?>&all"><?= strip_tags($project['projects_name']) ?></a>
                                     <span class="main-navigation__list-item-count"><?= count_tasks_in_project($project, $my_tasks); ?></span>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
                     </nav>
                     <a class="button button--transparent button--plus content__side-button"
-                       href="prodj.php" >Добавить проект</a>
+                       href="/controller/prodj.php">Добавить проект</a>
+
+
                 </section>
             <?php endif; ?>
             <?= $content; ?>
@@ -124,17 +126,17 @@
             <span class="visually-hidden">Разработано:</span>
 
             <a href="https://htmlacademy.ru/intensive/php">
-                <img src="img/htmlacademy.svg" alt="HTML Academy" width="118" height="40">
+                <img src="../img/htmlacademy.svg" alt="HTML Academy" width="118" height="40">
             </a>
         </div>
     </div>
 </footer>
 
-<script src="js/flatpickr.js"></script>
-<script src="js/script.js"></script>
+<script src="../js/flatpickr.js"></script>
+<script src="../js/script.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-<script src="js/jquery.fancybox.min.js"></script>
+<script src="../js/jquery.fancybox.min.js"></script>
 </body>
 </html>
