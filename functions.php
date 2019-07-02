@@ -88,6 +88,8 @@ function lifetime_task ($get)
         return 'AND lifetime = CURRENT_DATE + 1 AND status = 0';
     } elseif ($get === isset($_GET['overdue'])){
         return 'AND lifetime < CURRENT_DATE AND lifetime > 0 AND status = 0';
+    } elseif ($get === isset($_GET['notime'])){
+        return 'AND lifetime = 0 AND status = 0';
     }
         return 'AND lifetime = lifetime AND status = 0';
 

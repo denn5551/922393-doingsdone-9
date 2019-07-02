@@ -23,7 +23,7 @@ if ($is_auth) {
         if (isset($_GET['project'])) {
             if (((integer)$_GET['project']) === $project['id']) {
                 # Фильтры по задачам для конкретного проекта
-                $all_get_filters = ['all', 'today', 'tomorrow', 'overdue'];
+                $all_get_filters = ['all', 'today', 'tomorrow', 'overdue', 'notime'];
                 foreach ($all_get_filters as $get) {
                     if ($_GET['project'] && (isset($_GET[$get]))) {
                         $my_tasks_completed = get_lifetime($con, $user_id, isset($_GET[$get]), $project['id']);
@@ -33,12 +33,12 @@ if ($is_auth) {
                     }
 
                     # Чек бокс $show_complete
-                    if ($_GET['project'] && (!empty($_GET['show_completed']) === 1)) {
+                    if (isset($_GET['project']) && (!empty($_GET['show_completed']) && (integer)$_GET['show_completed'] === 1)) {
                         $my_tasks_completed = get_tasks($con, $user_id, 1, $project['id']);
                         $show_complete_tasks = 1;
                         $page_content = include_template('index.php',
                             ['my_tasks' => $my_tasks_completed, 'show_complete_tasks' => $show_complete_tasks]);
-                        break;
+                        break 2;
                     }
                 }
             } else {
@@ -62,8 +62,8 @@ if ($is_auth) {
     }
 
 # Фильтры для всех задач на главной
-    if (isset($_GET['all']) || isset($_GET['today']) || isset($_GET['tomorrow']) || isset($_GET['overdue'])) {
-        $all_get_filters = ['all', 'today', 'tomorrow', 'overdue'];
+    if (isset($_GET['all']) || isset($_GET['today']) || isset($_GET['tomorrow']) || isset($_GET['overdue']) || isset($_GET ['notime'])) {
+        $all_get_filters = ['all', 'today', 'tomorrow', 'overdue', 'notime'];
         foreach ($all_get_filters as $get) {
             if (isset($_GET[$get]) && empty($_GET['project'])) {
                 $my_tasks_completed = get_lifetime($con, $user_id, isset($_GET[$get]), false);
@@ -96,7 +96,7 @@ if ($is_auth) {
         $res = mysqli_stmt_execute($stmt);
         header("Location: /index.php");
     }
-
+    // TODO написать функцию для постраничного вывода задач
     #Постраничный выод задач
     if (isset($_GET['page'])) {
     $cur_page = $_GET['page'] ?? 1;
@@ -130,6 +130,41 @@ if ($is_auth) {
         'cur_page' => $cur_page
     ]);
 
+    }
+    // TODO написать функцию для постраничного вывода выполненных задач
+    #Постраничный выод выполенных задач
+    if (isset($_GET['page']) && (!empty($_GET['show_completed']) && (integer)$_GET['show_completed'] === 1) ){
+        $cur_page = $_GET['page'] ?? 1;
+        $page_items = 5;
+        $show_completed = 1;
+        $result = mysqli_query($con, "SELECT COUNT(*) as projects_id  FROM task t
+    JOIN projects p
+    ON p.id = t.projects_id  WHERE user_id = $user_id AND STATUS = 1");
+        $items_count = mysqli_fetch_assoc($result)['projects_id'];
+
+        $pages_count = ceil($items_count / $page_items);
+        $offset = ($cur_page - 1) * $page_items;
+
+        $pages = range(1, $pages_count);
+
+        // запрос на показ задач
+        $sql = 'SELECT t.id, projects_id, task_name, task_description, status, file, file_name, lifetime  FROM task t
+    JOIN projects p
+    ON p.id = t.projects_id  WHERE user_id = ? AND STATUS = 1 LIMIT ? OFFSET ?';
+
+        mysqli_prepare($con, $sql);
+        $stmt = db_get_prepare_stmt($con, $sql, [$user_id, $page_items, $offset]);
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+        $my_tasks_pag = mysqli_fetch_all($res, MYSQLI_ASSOC);
+        var_dump($show_completed);
+        $page_content = include_template('index.php', [
+            'pages' => $pages,
+            'my_tasks' => $my_tasks_pag,
+            'pages_count' => $pages_count,
+            'cur_page' => $cur_page,
+            'show_complete_tasks' => $show_completed
+        ]);
     }
 
     $layout_content = include_template('layout.php', [

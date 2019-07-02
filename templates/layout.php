@@ -57,6 +57,7 @@
                                     <a class="main-navigation__list-item-link"
                                        href="/index.php?project=<?= $project['id'] ?>&all"><?= strip_tags($project['projects_name']) ?></a>
                                     <span class="main-navigation__list-item-count"><?= count_tasks_in_project($project, $my_tasks); ?></span>
+                                    <a href="/controller/project.php?id=<?= $project['id']?>" class="tasks-delete" ><img src="img/edit.jpg" alt="" width="15px"></a>
                                 </li>
                             <?php endforeach; ?>
                         </ul>

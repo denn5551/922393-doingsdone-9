@@ -54,6 +54,8 @@
                class="tasks-switch__item <?= isset($_GET['tomorrow']) ? 'tasks-switch__item--active' : ''; ?>">Завтра</a>
             <a href="index.php?overdue<?= isset($_GET['project']) ? '&project=' . $_GET['project'] : '' ?>"
                class="tasks-switch__item <?= isset($_GET['overdue']) ? 'tasks-switch__item--active' : ''; ?>">Просроченные</a>
+            <a href="index.php?notime<?= isset($_GET['project']) ? '&project=' . $_GET['project'] : '' ?>"
+               class="tasks-switch__item <?= isset($_GET['notime']) ? 'tasks-switch__item--active' : ''; ?>">Без срока</a>
         </nav>
 
         <label class="checkbox">
@@ -63,7 +65,10 @@
             <span class="checkbox__text">Показывать выполненные</span>
         </label>
     </div>
-
+    <?php if (empty($my_tasks)) : ?>
+        <p>В этом разделе нет задач.</p>
+        <img src="img/not-tasks.jpg" alt="not-tasks" width="400" style="display: block; margin: auto">
+    <?php endif; ?>
     <table class="tasks">
         <?php if (isset($my_tasks)): ?>
             <?php foreach ($my_tasks as $task): ?>
@@ -100,5 +105,6 @@
 <?=include_template('pagination.php', [
     'pages' => $pages,
     'pages_count' => $pages_count,
-    'cur_page' => $cur_page
+    'cur_page' => $cur_page,
+    'show_complete_tasks' => $show_complete_tasks
 ]); ?>
