@@ -181,3 +181,17 @@ function one_task ($con, $user_id, $id) {
     $res = mysqli_stmt_get_result($stmt);
     return mysqli_fetch_all($res, MYSQLI_ASSOC);
 }
+
+/**
+ * Получаем данные по одному проекту
+ * @param $con - подключение
+ * @param $id - id проекта из post или get запроса
+ * @return array|null
+ */
+function one_projects ($con, $id) {
+    $sql = "SELECT id,projects_name FROM projects WHERE id =?";
+    $stmt = db_get_prepare_stmt($con, $sql, [$id]);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    return mysqli_fetch_all($res, MYSQLI_ASSOC);
+}

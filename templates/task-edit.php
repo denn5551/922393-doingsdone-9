@@ -75,7 +75,8 @@
                 <?php endif; ?>
 
                 <?php if (!empty($task['file'])) : ?>
-                    <a data-fancybox="images" href="<?= "uploads/" . $task['file'] ?>"  data-caption="fox1"><?= $task["file_name"]; ?></a>
+                    <input type="hidden" name="file_name" value="<?= $task["file_name"]; ?>">
+                    <a data-fancybox="images"  href="<?= "uploads/" . $task['file'] ?>"  data-caption="fox1"><?= $task["file_name"]; ?></a>
                     <a href="task.php?delete-file=<?= $task['file']; ?>&id=<?= $task['id']; ?>" class="tasks-delete ">&times;</a>
                 <?php endif; ?>
 
@@ -85,6 +86,7 @@
             </div>
         </div>
         <?php endforeach; ?>
+        <!--Скрытое поле передает id задачи -->
         <input type="hidden" name="id" value="<?= $task['id']; ?>">
         <div class="row mb-5">
             <div class="form__row form__row--controls col-lg-6">

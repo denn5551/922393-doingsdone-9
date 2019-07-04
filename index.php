@@ -157,7 +157,7 @@ if ($is_auth) {
         mysqli_stmt_execute($stmt);
         $res = mysqli_stmt_get_result($stmt);
         $my_tasks_pag = mysqli_fetch_all($res, MYSQLI_ASSOC);
-        var_dump($show_completed);
+
         $page_content = include_template('index.php', [
             'pages' => $pages,
             'my_tasks' => $my_tasks_pag,

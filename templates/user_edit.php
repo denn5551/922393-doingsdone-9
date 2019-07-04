@@ -9,7 +9,7 @@
                 <label class="form__message" for="basic-url"><?= $errors['name']; ?></label>
             <?php endif; ?>
             <div class="input-group mb-3">
-                <input type="text" name="name" id="basic-url" class="form-control <?=isset($errors['name']) ? "form__input--error" : ''; ?>" placeholder="<?= strip_tags($user_data['user_name']); ?>" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" name="name" id="basic-url" value="<?= strip_tags($user_data['user_name']); ?>" class="form-control <?=isset($errors['name']) ? "form__input--error" : ''; ?>" placeholder="<?= strip_tags($user_data['user_name']); ?>" aria-label="Username" aria-describedby="basic-addon1">
             </div>
 
            <p>Почта:</p>
@@ -17,7 +17,7 @@
                 <label class="form__message" for="basic-url"><?= $errors['email']; ?></label>
             <?php endif; ?>
             <div class="input-group mb-3">
-                <input type="text" name="email" class="form-control <?=isset($errors['email']) ? "form__input--error" : ''; ?>" placeholder="<?= strip_tags($user_data['email']); ?>" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" name="email" value="<?= strip_tags($user_data['email']); ?>" class="form-control <?=isset($errors['email']) ? "form__input--error" : ''; ?>" placeholder="<?= strip_tags($user_data['email']); ?>" aria-label="Username" aria-describedby="basic-addon1">
             </div>
         </div>
         <?php endforeach; ?>

@@ -13,7 +13,7 @@ if ($is_auth) {
 
     $my_tasks = get_tasks($con, $user_id, 0, false);
 
-    $sql = 'SELECT date_reg, user_name, email FROM users where id = ?;'; // или брать данные из сессии?
+    $sql = 'SELECT date_reg, user_name, email,update_session FROM users where id = ?;'; // или брать данные из сессии?
 
     mysqli_prepare($con, $sql);
     $stmt = db_get_prepare_stmt($con, $sql, [$user_id]);
@@ -22,6 +22,16 @@ if ($is_auth) {
     $users_data = mysqli_fetch_all($res, MYSQLI_ASSOC);
     $page_content = include_template('user.php',['users_data' => $users_data]);
 
+    #Обновляем сессию при смене имени
+    foreach ($users_data as $users){
+        if (isset($users["update_session"])){
+            $_SESSION['user']['user_name'] = $users["user_name"];
+        }
+        $sql = 'UPDATE users SET update_session = 0 WHERE id = ?';
+        mysqli_prepare($con, $sql);
+        $stmt = db_get_prepare_stmt($con, $sql, [$user_id]);
+        $res = mysqli_stmt_execute($stmt);
+    }
 
     if (isset($_POST["user_data"])){
         $page_content = include_template('user_edit.php',['users_data' => $users_data]);
@@ -36,18 +46,10 @@ if ($is_auth) {
             }
         }
 
-        if (isset($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-            $email = mysqli_real_escape_string($con, $_POST['email']);
-            $sql = "SELECT id FROM users WHERE email = '$email'";
-            $res = mysqli_query($con, $sql);
-
-            if (mysqli_num_rows($res) > 0) {
-                $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
-            }
+        if (isset($_POST['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = 'Введите правильный email';
         } elseif (!empty($_POST['email']) === false) {
             $errors['email'] = 'Это поле надо заполнить';
-        } else {
-            $errors['email'] = 'Введите правильный email';
         }
 
         if (!empty($errors)) {
@@ -57,7 +59,7 @@ if ($is_auth) {
                 'users_data' => $users_data,
                 ]);
         } else {
-            $sql = "UPDATE users SET user_name =  ?, email = ? WHERE id = ?";
+            $sql = "UPDATE users SET user_name =  ?, email = ?, update_session = 1 WHERE id = ?";
             mysqli_prepare($con, $sql);
             $stmt = db_get_prepare_stmt($con, $sql, [$_POST['name'], $_POST['email'], $user_id]);
             $res = mysqli_stmt_execute($stmt);

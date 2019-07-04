@@ -57,13 +57,14 @@
             <a href="index.php?notime<?= isset($_GET['project']) ? '&project=' . $_GET['project'] : '' ?>"
                class="tasks-switch__item <?= isset($_GET['notime']) ? 'tasks-switch__item--active' : ''; ?>">Без срока</a>
         </nav>
-
+        <?php if (isset($_GET['all']) || isset($_GET['page'])) : ?>
         <label class="checkbox">
             <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
             <input class="checkbox__input visually-hidden show_completed"
                    type="checkbox" <?= (!empty($show_complete_tasks)) ? 'checked' : '' ?> >
             <span class="checkbox__text">Показывать выполненные</span>
         </label>
+        <?php endif; ?>
     </div>
     <?php if (empty($my_tasks)) : ?>
         <p>В этом разделе нет задач.</p>
