@@ -16,7 +16,6 @@ if ($is_auth) {
 
     $page_content = include_template('index.php');
 
-
     $show_complete_tasks = 0;
 
     foreach ($projects as $project) {
@@ -86,7 +85,7 @@ if ($is_auth) {
 
         header("Location: /index.php?success_del=true");
     }
-# Пометить задачу как выполненую
+    # Пометить задачу как выполненую
     if (isset($_GET['check'])) {
         $id_task = $_GET['task_id'];
         $sql = "update task set status = case when status = 1 then 0 else 1 end
@@ -96,32 +95,22 @@ if ($is_auth) {
         $res = mysqli_stmt_execute($stmt);
         header("Location: /index.php");
     }
-    // TODO написать функцию для постраничного вывода задач
+
+    #Постраничный вывод задач для проектов
+    if (isset($_GET['project'])){
+        ['my_tasks_pag' => $my_tasks_pag , 'pages' => $pages, 'pages_count' => $pages_count,'cur_page' => $cur_page ] = pagination ($con, 0, $user_id, $_GET['project']);
+
+        $page_content = include_template('index.php', [
+            'pages' => $pages,
+            'my_tasks' => $my_tasks_pag,
+            'pages_count' => $pages_count,
+            'cur_page' => $cur_page
+        ]);
+    }
+
     #Постраничный выод задач
-    if (isset($_GET['page'])) {
-    $cur_page = $_GET['page'] ?? 1;
-    $page_items = 5;
-
-    $result = mysqli_query($con, "SELECT COUNT(*) as projects_id  FROM task t
-    JOIN projects p
-    ON p.id = t.projects_id  WHERE user_id = $user_id AND STATUS = 0");
-    $items_count = mysqli_fetch_assoc($result)['projects_id'];
-
-    $pages_count = ceil($items_count / $page_items);
-    $offset = ($cur_page - 1) * $page_items;
-
-    $pages = range(1, $pages_count);
-
-    // запрос на показ задач
-    $sql = 'SELECT t.id, projects_id, task_name, task_description, status, file, file_name, lifetime  FROM task t
-    JOIN projects p
-    ON p.id = t.projects_id  WHERE user_id = ? AND STATUS = 0 LIMIT ? OFFSET ?';
-
-    mysqli_prepare($con, $sql);
-    $stmt = db_get_prepare_stmt($con, $sql, [$user_id, $page_items, $offset]);
-    mysqli_stmt_execute($stmt);
-    $res = mysqli_stmt_get_result($stmt);
-    $my_tasks_pag = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    if (isset($_GET['page']) || $_SERVER["REQUEST_URI"] === '/index.php') {
+    ['my_tasks_pag' => $my_tasks_pag , 'pages' => $pages, 'pages_count' => $pages_count,'cur_page' => $cur_page ] = pagination ($con, 0, $user_id, false);
 
     $page_content = include_template('index.php', [
         'pages' => $pages,
@@ -129,34 +118,26 @@ if ($is_auth) {
         'pages_count' => $pages_count,
         'cur_page' => $cur_page
     ]);
-
     }
-    // TODO написать функцию для постраничного вывода выполненных задач
+
+    #Постраничный выод выполенных задач для проектов
+    if (isset($_GET['project']) && (isset($_GET['show_completed']) && (integer)$_GET['show_completed'] === 1) ){
+        $show_completed = $_GET['show_completed'];
+        ['my_tasks_pag' => $my_tasks_pag , 'pages' => $pages, 'pages_count' => $pages_count,'cur_page' => $cur_page ] = pagination ($con, 1, $user_id, false) ;
+
+        $page_content = include_template('index.php', [
+            'pages' => $pages,
+            'my_tasks' => $my_tasks_pag,
+            'pages_count' => $pages_count,
+            'cur_page' => $cur_page,
+            'show_complete_tasks' => $show_completed
+        ]);
+    }
+
     #Постраничный выод выполенных задач
-    if (isset($_GET['page']) && (!empty($_GET['show_completed']) && (integer)$_GET['show_completed'] === 1) ){
-        $cur_page = $_GET['page'] ?? 1;
-        $page_items = 5;
-        $show_completed = 1;
-        $result = mysqli_query($con, "SELECT COUNT(*) as projects_id  FROM task t
-    JOIN projects p
-    ON p.id = t.projects_id  WHERE user_id = $user_id AND STATUS = 1");
-        $items_count = mysqli_fetch_assoc($result)['projects_id'];
-
-        $pages_count = ceil($items_count / $page_items);
-        $offset = ($cur_page - 1) * $page_items;
-
-        $pages = range(1, $pages_count);
-
-        // запрос на показ задач
-        $sql = 'SELECT t.id, projects_id, task_name, task_description, status, file, file_name, lifetime  FROM task t
-    JOIN projects p
-    ON p.id = t.projects_id  WHERE user_id = ? AND STATUS = 1 LIMIT ? OFFSET ?';
-
-        mysqli_prepare($con, $sql);
-        $stmt = db_get_prepare_stmt($con, $sql, [$user_id, $page_items, $offset]);
-        mysqli_stmt_execute($stmt);
-        $res = mysqli_stmt_get_result($stmt);
-        $my_tasks_pag = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    if (isset($_GET['page']) && (isset($_GET['show_completed']) && (integer)$_GET['show_completed'] === 1) ){
+        $show_completed = $_GET['show_completed'];
+        ['my_tasks_pag' => $my_tasks_pag , 'pages' => $pages, 'pages_count' => $pages_count,'cur_page' => $cur_page ] = pagination ($con, 1, $user_id, false) ;
 
         $page_content = include_template('index.php', [
             'pages' => $pages,

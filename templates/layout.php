@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/flatpickr.min.css">
     <link rel="stylesheet" href="../css/jquery.fancybox.min.css">
+
 </head>
 
 <body>
@@ -17,7 +18,7 @@
 <div class="page-wrapper">
     <div class="container container--with-sidebar">
         <header class="main-header">
-            <a href="http://mybisnes.local/index.php?page=1">
+            <a href="http://mybisnes.local/index.php">
                 <img src="../img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
@@ -75,16 +76,19 @@
 </div>
 
 <footer class="main-footer">
-    <div class="container">
-        <div class="main-footer__copyright">
+    <div class="container-fluid">
+        <div class="row">
+        <div class="main-footer__copyright col-lg-3">
             <p>© 2019, «Дела в порядке»</p>
 
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
         <?php if (isset($is_auth)): ?>
-            <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
+        <div class="col-lg-3">
+            <a class="main-footer__button button button--plus" href="/controller/add.php">Добавить задачу</a>
+        </div>
         <?php endif; ?>
-        <div class="main-footer__social social">
+        <div class="main-footer__social social col-lg-3">
             <span class="visually-hidden">Мы в соцсетях:</span>
             <a class="social__link social__link--facebook" href="#">
                 <span class="visually-hidden">Facebook</span>
@@ -123,7 +127,7 @@
             </a>
         </div>
 
-        <div class="main-footer__developed-by">
+        <div class="main-footer__developed-by col-lg-3">
             <span class="visually-hidden">Разработано:</span>
 
             <a href="https://htmlacademy.ru/intensive/php">
@@ -131,6 +135,7 @@
             </a>
         </div>
     </div>
+        </div>
 </footer>
 
 <script src="../js/flatpickr.js"></script>

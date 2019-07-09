@@ -48,7 +48,7 @@ body {
 
 .main-footer,
 .page-wrapper::after {
-  height: 94px;
+  height: 120px;
 }
 
 body {
@@ -172,19 +172,19 @@ a:focus {
   background-color: rgba(0, 0, 0, 0.75);
 }
 
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: 3;
+/*.modal {*/
+/*  position: fixed;*/
+/*  top: 50%;*/
+/*  left: 50%;*/
+/*  z-index: 3;*/
 
-  width: 445px;
-  min-height: 200px;
-  padding: 25px 30px;
+/*  width: 445px;*/
+/*  min-height: 200px;*/
+/*  padding: 25px 30px;*/
 
-  background-color: #ffffff;
-  transform: translate(-50%, -50%);
-}
+/*  background-color: #ffffff;*/
+/*  transform: translate(-50%, -50%);*/
+/*}*/
 
 .modal__close {
   position: absolute;
@@ -656,7 +656,7 @@ a:focus {
 
 .main-footer__copyright {
   width: 215px;
-  margin-right: 70px;
+  /*margin-right: 70px;*/
 
   font-size: 13px;
   line-height: 1.5;
@@ -668,16 +668,16 @@ a:focus {
 
 .main-footer__social {
   width: 140px;
-  margin-right: 184px;
+  /*margin-right: 184px;*/
 }
 
-.social {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+/*.social {*/
+/*  display: flex;*/
+/*  flex-wrap: wrap;*/
+/*  justify-content: space-between;*/
 
-  margin-left: auto;
-}
+/*  margin-left: auto;*/
+/*}*/
 
 .social__link {
   width: 27px;
@@ -781,3 +781,4 @@ a:focus {
 .welcome__text p {
   margin: 20px 0;
 }
+

@@ -44,15 +44,57 @@ if ($is_auth) {
             }
         }
 
-    } else {
-        $projects_edit = one_projects ($con, $_GET['id']);;
+    }
 
-        $page_content = include_template('project.php', ['projects' => $projects_edit]);
+    # Удаляем проект, задачи и файлы.
+    if (isset($_POST['del-prodj'])) {
+        # Удаляем файлы из задач
+       $sql = "SELECT id FROM task WHERE projects_id = ?";
+       $stmt = db_get_prepare_stmt($con, $sql, [$_POST['id']]);
+       mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+       $id_proj = mysqli_fetch_all($res, MYSQLI_ASSOC);
+
+       foreach ($id_proj as $id) {
+           foreach ($id as $id) {
+               $sql = "SELECT file FROM task WHERE id = " . $id;
+               $stmt = db_get_prepare_stmt($con, $sql);
+               mysqli_stmt_execute($stmt);
+               $res = mysqli_stmt_get_result($stmt);
+               $id_proj = mysqli_fetch_array($res, MYSQLI_ASSOC);
+               foreach ($id_proj as $id){
+                   unlink ('../uploads/' . $id);
+               }
+           }
+       }
+
+        # удаляем задачи
+        $sql = "DELETE FROM task
+        WHERE projects_id = ?";
+        mysqli_prepare($con, $sql);
+        $stmt = db_get_prepare_stmt($con, $sql, [$_POST['id']]);
+        $res = mysqli_stmt_execute($stmt);
+
+        # удаляем проект
+        $sql = "DELETE FROM projects
+        WHERE id = ?";
+        mysqli_prepare($con, $sql);
+        $stmt = db_get_prepare_stmt($con, $sql, [$_POST['id']]);
+        $res = mysqli_stmt_execute($stmt);
+
+        if ($res){
+            header("Location: /index.php?success_del_proj=true");
+        }
     }
 
     if (isset($_POST['back'])) {
         header("Location: /index.php?project=" . $_POST['id'] . "&all");
     }
+
+    $projects_edit = one_projects ($con, $_GET['id']);;
+
+    $page_content = include_template('project.php', ['projects' => $projects_edit]);
+
 
 } else {
     $page_content = include_template('guest.php');

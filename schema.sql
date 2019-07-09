@@ -30,7 +30,8 @@ CREATE TABLE users
     date_reg  DATETIME DEFAULT CURRENT_TIMESTAMP,
     user_name CHAR(64) NOT NULL UNIQUE,
     email     CHAR(128) NOT NULL UNIQUE,
-    password  CHAR(255)
+    password  CHAR(255),
+    update_session TINYINT DEFAULT 0
 );
 
 CREATE FULLTEXT INDEX task_ft_search

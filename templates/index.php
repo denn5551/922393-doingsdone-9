@@ -30,7 +30,16 @@
 
     <?php if (isset($_GET['success_project'])): ?>
         <div class="alert alert-success" role="alert">
-            Проект добавлен успешно успешно!
+            Проект добавлен успешно!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['success_del_proj'])): ?>
+        <div class="alert alert-success" role="alert">
+            Проект удален успешно!
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -68,7 +77,7 @@
     </div>
     <?php if (empty($my_tasks)) : ?>
         <p>В этом разделе нет задач.</p>
-        <img src="img/not-tasks.jpg" alt="not-tasks" width="400" style="display: block; margin: auto">
+        <img src="/img/not-tasks.jpg" alt="not-tasks" width="400" style="display: block; margin: auto">
     <?php endif; ?>
     <table class="tasks">
         <?php if (isset($my_tasks)): ?>

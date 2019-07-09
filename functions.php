@@ -69,10 +69,9 @@ function status_task($status)
 {
     if ($status === 0){
         return 'AND status = 0 ';
-    } elseif ($status === 1) {
-        return 'AND status = 1 ';
     }
-        return '';
+        return 'AND status = 1 ';
+
 }
 
 /**
@@ -194,4 +193,61 @@ function one_projects ($con, $id) {
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
     return mysqli_fetch_all($res, MYSQLI_ASSOC);
+}
+
+/**
+ * Добавляем в запрос sql id категории для постраничного вывода. Также проверяем что бы
+ * get запрос был чилом (защита от sql иньекций).
+ * @param $get - гет запрос
+ */
+function pagination_project ($get) {
+    if ($get > 0 && is_numeric($get)){
+        return ' AND projects_id = ' . $get . ' ';
+    }
+        return '';
+}
+
+/**
+ * Постраничный вывод задач
+ * @param $con - подключение
+ * @param $status - статус задачи
+ * @param $user_id - id юзера
+ * @return array my_tasks_pag, pages, pages_count, cur_page
+ */
+function pagination ($con, $status, $user_id, $get) {
+    $cur_page = $_GET['page'] ?? 1;
+    $page_items = 5;
+
+    $sql = 'SELECT COUNT(*) as projects_id  FROM task t
+    JOIN projects p
+    ON p.id = t.projects_id  WHERE user_id = ? ';
+    $sql .= pagination_project ($get);
+    $sql .= status_task($status);
+
+    $stmt = db_get_prepare_stmt($con, $sql, [$user_id]);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+
+    $items_count = mysqli_fetch_assoc($res)['projects_id'];
+
+    $pages_count = ceil($items_count / $page_items);
+    $offset = ($cur_page - 1) * $page_items;
+
+    $pages = range(1, $pages_count);
+
+    // запрос на показ задач
+    $sql = 'SELECT t.id, projects_id, task_name, task_description, status, file, file_name, lifetime  FROM task t
+    JOIN projects p
+    ON p.id = t.projects_id  WHERE user_id = ? ';
+    $sql .= pagination_project ($get);
+    $sql .= status_task($status);
+    $sql .= '  LIMIT ? OFFSET ? ';
+
+    mysqli_prepare($con, $sql);
+    $stmt = db_get_prepare_stmt($con, $sql, [$user_id, $page_items, $offset]);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+
+    return ['my_tasks_pag' => mysqli_fetch_all($res, MYSQLI_ASSOC), 'pages' => $pages, 'pages_count' => $pages_count, 'cur_page' => $cur_page];
+
 }
