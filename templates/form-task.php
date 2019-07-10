@@ -34,7 +34,8 @@
 
             <select class="form__input form__input--select" name="project" id="project">
                 <?php foreach ($projects as $project): ?>
-                    <option value="<?= $project['id']; ?>" <?= (integer)$_POST['project'] === $project['id'] ? 'selected' : ''; ?>><?= strip_tags($project['projects_name']); ?></option>
+
+                    <option value="<?= $project['id']; ?>" <?= (integer)$_POST['project'] === $project['id'] ? 'selected' : ''; ?><?= isset($_GET['id']) && (integer)$_GET['id'] === $project['id'] ? 'selected' : ''; ?>><?= strip_tags($project['projects_name']); ?></option>
                 <?php endforeach; ?>
             </select>
         </div>

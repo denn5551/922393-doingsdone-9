@@ -18,7 +18,7 @@
 <div class="page-wrapper">
     <div class="container container--with-sidebar">
         <header class="main-header">
-            <a href="http://mybisnes.local/index.php">
+            <a href="/index.php?all&page=1">
                 <img src="../img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
@@ -27,6 +27,18 @@
                     <a class="main-header__side-item button button--transparent" href="/controller/auth.php">Войти</a>
                 </div>
             <?php else: ?>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+                            <a class="nav-item nav-link active" href="#">Опроекте</a>
+                            <a class="nav-item nav-link" href="#">Отзывы </a>
+                            <a class="nav-item nav-link" href="#">Обратная связь</a>
+                        </div>
+                    </div>
+                </nav>
                 <div class="main-header__side">
                     <a class="main-header__side-item button button--plus open-modal" href="/controller/add.php">Добавить задачу</a>
 
@@ -59,6 +71,7 @@
                                        href="/index.php?project=<?= $project['id'] ?>&all"><?= strip_tags($project['projects_name']) ?></a>
                                     <span class="main-navigation__list-item-count"><?= count_tasks_in_project($project, $my_tasks); ?></span>
                                     <a href="/controller/project.php?id=<?= $project['id']?>" class="tasks-delete" ><img src="/img/edit.jpg" alt="" width="15px"></a>
+                                    <a href="/controller/add.php?id=<?= $project['id']?>" class="" ><img src="/img/plus1.png" alt="" width="15px"></a>
                                 </li>
                             <?php endforeach; ?>
                         </ul>

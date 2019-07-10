@@ -36,7 +36,6 @@ if ($is_auth) {
             $page_content = include_template('project.php', ['projects' => $projects_err, 'errors' => $errors]);
         } else {// если ошибок нет обновляем название проекта
             $sql = "UPDATE projects SET projects_name = ? WHERE id = ?";
-            mysqli_prepare($con, $sql);
             $stmt = db_get_prepare_stmt($con, $sql, [$_POST['name'], $_POST['id']]);
             $res = mysqli_stmt_execute($stmt);
             if ($res){
@@ -56,14 +55,14 @@ if ($is_auth) {
        $id_proj = mysqli_fetch_all($res, MYSQLI_ASSOC);
 
        foreach ($id_proj as $id) {
-           foreach ($id as $id) {
-               $sql = "SELECT file FROM task WHERE id = " . $id;
+           foreach ($id as $file_name) {
+               $sql = "SELECT file FROM task WHERE id = " . $file_name;
                $stmt = db_get_prepare_stmt($con, $sql);
                mysqli_stmt_execute($stmt);
                $res = mysqli_stmt_get_result($stmt);
-               $id_proj = mysqli_fetch_array($res, MYSQLI_ASSOC);
-               foreach ($id_proj as $id){
-                   unlink ('../uploads/' . $id);
+               $task_file_name = mysqli_fetch_array($res, MYSQLI_ASSOC);
+               foreach ($task_file_name as $id_file){
+                   unlink ('../uploads/' . $id_file);
                }
            }
        }
@@ -71,14 +70,12 @@ if ($is_auth) {
         # удаляем задачи
         $sql = "DELETE FROM task
         WHERE projects_id = ?";
-        mysqli_prepare($con, $sql);
         $stmt = db_get_prepare_stmt($con, $sql, [$_POST['id']]);
         $res = mysqli_stmt_execute($stmt);
 
         # удаляем проект
         $sql = "DELETE FROM projects
-        WHERE id = ?";
-        mysqli_prepare($con, $sql);
+        WHERE id = ?";;
         $stmt = db_get_prepare_stmt($con, $sql, [$_POST['id']]);
         $res = mysqli_stmt_execute($stmt);
 

@@ -81,13 +81,13 @@ function status_task($status)
  */
 function lifetime_task ($get)
 {
-    if ($get === isset($_GET['today'])){
+    if ($get === $_GET['today']){
         return 'AND lifetime = CURRENT_DATE AND status = 0';
-    } elseif ($get === isset($_GET['tomorrow'])){
+    } elseif ($get === $_GET['tomorrow']){
         return 'AND lifetime = CURRENT_DATE + 1 AND status = 0';
-    } elseif ($get === isset($_GET['overdue'])){
+    } elseif ($get === $_GET['overdue']){
         return 'AND lifetime < CURRENT_DATE AND lifetime > 0 AND status = 0';
-    } elseif ($get === isset($_GET['notime'])){
+    } elseif ($get === $_GET['notime']){
         return 'AND lifetime = 0 AND status = 0';
     }
         return 'AND lifetime = lifetime AND status = 0';
@@ -242,6 +242,7 @@ function pagination ($con, $status, $user_id, $get) {
     $sql .= pagination_project ($get);
     $sql .= status_task($status);
     $sql .= '  LIMIT ? OFFSET ? ';
+
 
     mysqli_prepare($con, $sql);
     $stmt = db_get_prepare_stmt($con, $sql, [$user_id, $page_items, $offset]);

@@ -25,20 +25,22 @@ if ($is_auth) {
                 $all_get_filters = ['all', 'today', 'tomorrow', 'overdue', 'notime'];
                 foreach ($all_get_filters as $get) {
                     if ($_GET['project'] && (isset($_GET[$get]))) {
-                        $my_tasks_completed = get_lifetime($con, $user_id, isset($_GET[$get]), $project['id']);
+                        $my_tasks_completed = get_lifetime($con, $user_id, $_GET[$get], $project['id']);
+
                         $page_content = include_template('index.php',
                             ['my_tasks' => $my_tasks_completed, 'show_complete_tasks' => $show_complete_tasks]);
                         break 2;
                     }
 
                     # Чек бокс $show_complete
-                    if (isset($_GET['project']) && (!empty($_GET['show_completed']) && (integer)$_GET['show_completed'] === 1)) {
-                        $my_tasks_completed = get_tasks($con, $user_id, 1, $project['id']);
-                        $show_complete_tasks = 1;
-                        $page_content = include_template('index.php',
-                            ['my_tasks' => $my_tasks_completed, 'show_complete_tasks' => $show_complete_tasks]);
-                        break 2;
-                    }
+//                    if (isset($_GET['project']) && (!empty($_GET['show_completed']) && (integer)$_GET['show_completed'] === 1)) {
+//                        $my_tasks_completed = get_tasks($con, $user_id, 1, $project['id']);
+//                        $show_complete_tasks = 1;
+//                        $page_content = include_template('index.php',
+//                            ['my_tasks' => $my_tasks_completed, 'show_complete_tasks' => $show_complete_tasks]);
+//                        break 2;
+//                    }
+
                 }
             } else {
                 $page_content = include_template('404.php');
@@ -65,7 +67,7 @@ if ($is_auth) {
         $all_get_filters = ['all', 'today', 'tomorrow', 'overdue', 'notime'];
         foreach ($all_get_filters as $get) {
             if (isset($_GET[$get]) && empty($_GET['project'])) {
-                $my_tasks_completed = get_lifetime($con, $user_id, isset($_GET[$get]), false);
+                $my_tasks_completed = get_lifetime($con, $user_id, $_GET[$get], false);
                 $page_content = include_template('index.php',
                     ['my_tasks' => $my_tasks_completed, 'show_complete_tasks' => $show_complete_tasks]);
                 break;
@@ -77,11 +79,12 @@ if ($is_auth) {
     if (isset($_GET['delete'])) {
         $id_task_delete = $_GET['id'];
         $sql = "DELETE FROM task WHERE id = ?";
-        mysqli_prepare($con, $sql);
         $stmt = db_get_prepare_stmt($con, $sql, [$id_task_delete]);
         $res = mysqli_stmt_execute($stmt);
 
-        unlink ('uploads/' . $_GET['file']);
+        if (!empty($_GET['file'])){
+            unlink ('uploads/' . $_GET['file']);
+        }
 
         header("Location: /index.php?success_del=true");
     }
@@ -90,14 +93,13 @@ if ($is_auth) {
         $id_task = $_GET['task_id'];
         $sql = "update task set status = case when status = 1 then 0 else 1 end
                 WHERE id = ?";
-        mysqli_prepare($con, $sql);
         $stmt = db_get_prepare_stmt($con, $sql, [$id_task]);
         $res = mysqli_stmt_execute($stmt);
         header("Location: /index.php");
     }
 
     #Постраничный вывод задач для проектов
-    if (isset($_GET['project'])){
+    if (isset($_GET['project']) && isset($_GET['all'])){
         ['my_tasks_pag' => $my_tasks_pag , 'pages' => $pages, 'pages_count' => $pages_count,'cur_page' => $cur_page ] = pagination ($con, 0, $user_id, $_GET['project']);
 
         $page_content = include_template('index.php', [
@@ -109,7 +111,7 @@ if ($is_auth) {
     }
 
     #Постраничный выод задач
-    if (isset($_GET['page']) || $_SERVER["REQUEST_URI"] === '/index.php') {
+    if (isset($_GET['all']) && empty($_GET['project'])) {
     ['my_tasks_pag' => $my_tasks_pag , 'pages' => $pages, 'pages_count' => $pages_count,'cur_page' => $cur_page ] = pagination ($con, 0, $user_id, false);
 
     $page_content = include_template('index.php', [
@@ -121,21 +123,25 @@ if ($is_auth) {
     }
 
     #Постраничный выод выполенных задач для проектов
-    if (isset($_GET['project']) && (isset($_GET['show_completed']) && (integer)$_GET['show_completed'] === 1) ){
-        $show_completed = $_GET['show_completed'];
-        ['my_tasks_pag' => $my_tasks_pag , 'pages' => $pages, 'pages_count' => $pages_count,'cur_page' => $cur_page ] = pagination ($con, 1, $user_id, false) ;
+    if (isset($_GET['project']) ){
 
-        $page_content = include_template('index.php', [
-            'pages' => $pages,
-            'my_tasks' => $my_tasks_pag,
-            'pages_count' => $pages_count,
-            'cur_page' => $cur_page,
-            'show_complete_tasks' => $show_completed
-        ]);
+        if ((isset($_GET['show_completed']) && (integer)$_GET['show_completed'] === 1) ){
+            $show_completed = $_GET['show_completed'];
+            ['my_tasks_pag' => $my_tasks_pag , 'pages' => $pages, 'pages_count' => $pages_count,'cur_page' => $cur_page ] = pagination ($con, 1, $user_id, $_GET['project']) ;
+
+            $page_content = include_template('index.php', [
+                'pages' => $pages,
+                'my_tasks' => $my_tasks_pag,
+                'pages_count' => $pages_count,
+                'cur_page' => $cur_page,
+                'show_complete_tasks' => $show_completed
+            ]);
+        }
+
     }
 
     #Постраничный выод выполенных задач
-    if (isset($_GET['page']) && (isset($_GET['show_completed']) && (integer)$_GET['show_completed'] === 1) ){
+    if (isset($_GET['show_completed']) && (integer)$_GET['show_completed'] === 1 ){
         $show_completed = $_GET['show_completed'];
         ['my_tasks_pag' => $my_tasks_pag , 'pages' => $pages, 'pages_count' => $pages_count,'cur_page' => $cur_page ] = pagination ($con, 1, $user_id, false) ;
 

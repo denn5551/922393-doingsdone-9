@@ -103,14 +103,40 @@
                     </td>
                     <td class="task__date"><?= (integer)$task["lifetime"] === 0 ? 'Бессрочно' : $task["lifetime"]; ?></td>
                     <td class="task__controls">
-                        <a href="/controller/task.php?task-edit=<?= $task['id']; ?>&id=<?=  $task["projects_id"] ?>" class="tasks-delete" ><img src="img/edit.jpg" alt="" width="15px"></a>
-                        <a href="index.php?delete&id=<?= $task['id']; ?>&file=<?= $task['file']; ?>" class="tasks-delete ">&times;</a>
+                        <a href="/controller/task.php?task-edit=<?= $task['id']; ?>&id=<?=  $task["projects_id"] ?>" class="tasks-delete" ><img src="/img/edit.jpg" alt="" width="15px"></a>
+                        <a href="#" class="tasks-delete " data-toggle="modal" data-target="#exampleModal">Х</a>
                     </td>
                 </tr>
-
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Внимание!</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Вы действительно хотите удалить задачу?</p>
+                                <p>При удалении задачи востановить ее будет невозможно!</p>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="form__row form__row--controls col-lg-6 ">
+                                    <a href="index.php?delete&id=<?= $task['id']; ?>&file=<?= $task['file']; ?>" class="tasks-delete ">
+                                        <input class="button" id="start" type="submit" name="del-prodj" value="Удалить задачу">
+                                    </a>
+                                </div>
+                                <div class="form__row form__row--controls col-lg-6 ">
+                                    <input class="button" id="start" type="submit" data-dismiss="modal" value="Отмена">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <?php endforeach; ?>
         <?php endif ?>
     </table>
+
 
 <?=include_template('pagination.php', [
     'pages' => $pages,

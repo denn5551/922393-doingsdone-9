@@ -15,6 +15,12 @@ if ($is_auth) {
 
     $errors = [];
 
+    # Кнопка назад
+    if (isset($_POST['back'])) {
+        header("Location: /index.php?all&page=1");
+
+    }
+
     # Переходим на стр редактирования и получаем данные по задаче
     if (isset($_GET['task-edit'])){
 

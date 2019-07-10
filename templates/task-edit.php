@@ -26,7 +26,7 @@
             <label class="form__label" for="name">Название <sup>*</sup></label>
 
             <input class="form__input <?= $classname; ?>" type="text" name="name" id="name"
-                   value="<?= $task['task_name']; ?>" placeholder="Введите название">
+                   value="<?= strip_tags($task['task_name']); ?>" placeholder="Введите название">
 
             <?php if (isset($errors['name'])) : ?>
                 <p class="form__message"><?= $errors['name']; ?> </p>
@@ -45,7 +45,7 @@
 
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Описание проекта</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="155" name="textarea" placeholder=""><?= $task['task_description']; ?></textarea>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="155" name="textarea" placeholder=""><?= strip_tags($task['task_description']); ?></textarea>
             <?php if (isset($errors['textarea'])) : ?>
                 <p class="form__message"><?= $errors['textarea']; ?> </p>
             <?php endif; ?>
@@ -56,7 +56,7 @@
             <label class="form__label" for="date">Дата выполнения</label>
 
             <input class="form__input form__input--date <?= $classname; ?>" type="text" name="date" id="date"
-                   value="<?= (integer)$task["lifetime"] === 0 ? 'Бессрочно' : $task["lifetime"]; ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+                   value="<?= (integer)$task["lifetime"] === 0 ? 0000-00-00 : $task["lifetime"]; ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
             <?php if (isset($errors['date'])) : ?>
                 <p class="form__message"><?= $errors['date']; ?></p>
             <?php endif; ?>
@@ -88,9 +88,13 @@
         <?php endforeach; ?>
         <!--Скрытое поле передает id задачи -->
         <input type="hidden" name="id" value="<?= $task['id']; ?>">
+
         <div class="row mb-5">
             <div class="form__row form__row--controls col-lg-6">
-                <input class="button" type="submit" name="edit" value="Сохранить">
+                <input class="button" type="submit" name="edit" value="Сохранить" >
+            </div>
+            <div class="form__row form__row--controls col-lg-6">
+                <input class="button" type="submit" name="back" value="Назад">
             </div>
         </div>
     </form>
