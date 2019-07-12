@@ -13,28 +13,29 @@ if ($is_auth) {
 
     $my_tasks = get_tasks($con, $user_id, 0, false);
 
-    $sql = 'SELECT date_reg, user_name, email,update_session FROM users where id = ?;'; // или брать данные из сессии?
+    # Получаем данные пользователя
+    $sql = 'SELECT date_reg, user_name, email,update_session FROM users where id = ?;';
 
-    mysqli_prepare($con, $sql);
     $stmt = db_get_prepare_stmt($con, $sql, [$user_id]);
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
     $users_data = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    $page_content = include_template('user.php',['users_data' => $users_data]);
-
-    #Обновляем сессию при смене имени
-    foreach ($users_data as $users){
-        if (isset($users["update_session"])){
-            $_SESSION['user']['user_name'] = $users["user_name"];
-        }
-        $sql = 'UPDATE users SET update_session = 0 WHERE id = ?';
-        mysqli_prepare($con, $sql);
-        $stmt = db_get_prepare_stmt($con, $sql, [$user_id]);
-        $res = mysqli_stmt_execute($stmt);
-    }
+    $page_content = include_template('user.php', ['users_data' => $users_data]);
 
     if (isset($_POST["user_data"])){
         $page_content = include_template('user_edit.php',['users_data' => $users_data]);
+    }
+
+    #Обновляем сессию при смене имени
+    foreach ($users_data as $users){
+
+        if (isset($users["update_session"]) && (int)$users["update_session"] === 1) {
+            $_SESSION['user']['user_name'] = $users["user_name"];
+        }
+
+        $sql = 'UPDATE users SET update_session = 0 WHERE id = ?';
+        $stmt = db_get_prepare_stmt($con, $sql, [$user_id]);
+        $res = mysqli_stmt_execute($stmt);
     }
 
     if (isset($_POST["user_edit"])){
@@ -57,10 +58,9 @@ if ($is_auth) {
                 'projects' => $projects,
                 'errors' => $errors,
                 'users_data' => $users_data,
-                ]);
+            ]);
         } else {
             $sql = "UPDATE users SET user_name =  ?, email = ?, update_session = 1 WHERE id = ?";
-            mysqli_prepare($con, $sql);
             $stmt = db_get_prepare_stmt($con, $sql, [$_POST['name'], $_POST['email'], $user_id]);
             $res = mysqli_stmt_execute($stmt);
             if ($res){

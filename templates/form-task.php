@@ -8,13 +8,6 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <script>
-            $(function(){
-                window.setTimeout(function(){
-                    $('#my-alert').alert('close');
-                },5000);
-            });
-        </script>
     <?php endif; ?>
 
     <form class="form" action="add.php" method="post" autocomplete="off" enctype="multipart/form-data">
@@ -34,8 +27,7 @@
 
             <select class="form__input form__input--select" name="project" id="project">
                 <?php foreach ($projects as $project): ?>
-
-                    <option value="<?= $project['id']; ?>" <?= (integer)$_POST['project'] === $project['id'] ? 'selected' : ''; ?><?= isset($_GET['id']) && (integer)$_GET['id'] === $project['id'] ? 'selected' : ''; ?>><?= strip_tags($project['projects_name']); ?></option>
+                    <option value="<?= $project['id']; ?>"<?= (integer)$_POST['project'] === $project['id'] ? 'selected' : ''; ?><?= isset($_GET['id']) && (integer)$_GET['id'] === $project['id'] ? 'selected' : ''; ?>><?= strip_tags($project['projects_name']); ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
@@ -48,7 +40,6 @@
         <div class="form__row">
             <?php $classname = isset($errors['date']) ? "form__input--error" : ''; ?>
             <label class="form__label" for="date">Дата выполнения</label>
-
             <input class="form__input form__input--date <?= $classname; ?>" type="text" name="date" id="date"
                    value="<?= !empty($_POST['date']) ? $_POST['date'] : ''; ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
             <?php if (isset($errors['date'])) : ?>
@@ -58,7 +49,6 @@
 
         <div class="form__row">
             <label class="form__label" for="file">Файл</label>
-
             <div class="form__input-file">
                 <input class="visually-hidden" type="file" name="file" id="file" value="">
 
@@ -78,10 +68,7 @@
                     <div class="form__row form__row--controls col-lg-6">
                         <input class="button" type="submit" name="button2" value="Добавить еще">
                     </div>
-
             </div>
-
-
     </form>
 
 </main>

@@ -34,6 +34,15 @@ CREATE TABLE users
     update_session TINYINT DEFAULT 0
 );
 
+CREATE TABLE review
+(
+    id        INT AUTO_INCREMENT PRIMARY KEY,
+    date_review  DATETIME DEFAULT CURRENT_TIMESTAMP,
+    user_name CHAR(64) NOT NULL ,
+    review  VARCHAR(500),
+    flag TINYINT DEFAULT 0
+);
+
 CREATE FULLTEXT INDEX task_ft_search
 ON task(task_name);
 CREATE INDEX projects ON projects(projects_name);

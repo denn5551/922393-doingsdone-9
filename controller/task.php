@@ -18,13 +18,11 @@ if ($is_auth) {
     # Кнопка назад
     if (isset($_POST['back'])) {
         header("Location: /index.php?all&page=1");
-
     }
 
     # Переходим на стр редактирования и получаем данные по задаче
     if (isset($_GET['task-edit'])){
-
-        $my_tasks_edit = one_task ($con, $user_id, $_GET['task-edit']);
+        $my_tasks_edit = one_task($con, $user_id, $_GET['task-edit']);
 
         $page_content = include_template('task-edit.php', [
             'my_tasks' => $my_tasks_edit,
@@ -35,14 +33,13 @@ if ($is_auth) {
     # Удаляем файл из задачи при редактировании проекта
     if (isset($_GET['delete-file'])) {
 
-        unlink ('../uploads/' . $_GET['delete-file']);
+        unlink('../uploads/' . $_GET['delete-file']);
 
         $sql = "UPDATE task SET FILE = '', file_name = '' WHERE id = ?";
-        mysqli_prepare($con, $sql);
         $stmt = db_get_prepare_stmt($con, $sql, [$_GET['id']]);
         $res = mysqli_stmt_execute($stmt);
 
-        $my_tasks_edit = one_task ($con, $user_id, $_GET['id']);
+        $my_tasks_edit = one_task($con, $user_id, $_GET['id']);
 
         $page_content = include_template('task-edit.php', [
             'my_tasks' => $my_tasks_edit,
@@ -67,16 +64,17 @@ if ($is_auth) {
             $errors['file'] = 'Загрузите файл в формате jpeg';
         }
     }
+    # проверяем, что бы название задачи было не пусто
+    if (!empty($_POST) && empty($_POST['name'])) {
+        $errors['name'] = 'Введите название задачи';
+    }
 
-    # проверяем что бы дата была больше или равна текущей и что бы название задачи было не пусто
+    # проверяем что бы дата была больше или равна текущей
     if (!empty($_POST['date'])){
-
-        if (empty($_POST['name'])) {
-            $errors['name'] = 'Введите название задачи';
-        }
 
         $time_post = strtotime($_POST['date']);
         $time_now = strtotime(date('Y-m-d'));
+
         if ($time_post < $time_now) {
             $errors['date'] = 'Укажите правильную дату';
         }
@@ -86,27 +84,41 @@ if ($is_auth) {
 
     # Проверяем на ошибки
     if (!empty($errors)) {
-        $my_tasks_edit = one_task ($con, $user_id, $_POST['id']);
-        $page_content = include_template('task-edit.php', ['projects' => $projects, 'my_tasks' => $my_tasks_edit, 'errors' => $errors]);
-    } elseif (isset($_POST['edit'])) { // Отправляем запрос на изменение задачи
+
+        $my_tasks_edit = one_task($con, $user_id, $_POST['id']);
+
+        $page_content = include_template('task-edit.php',
+            ['projects' => $projects,
+            'my_tasks' => $my_tasks_edit,
+            'errors' => $errors]);
+
+    } elseif (isset($_POST['edit'])) {
+        # Отправляем запрос на изменение задачи
         $task['path'] = $filename;
         move_uploaded_file($_FILES['file']['tmp_name'], '../uploads/' . $filename);
+
         if (isset($_POST['file_name'])) {
             $sql = "UPDATE task SET projects_id = ?, task_name = ?, task_description = ?, lifetime = ? WHERE id = ?";
-            mysqli_prepare($con, $sql);
-            $stmt = db_get_prepare_stmt($con, $sql, [$_POST['project'], $_POST['name'], $_POST['textarea'], $_POST['date'], $_POST['id']]);
+            $stmt = db_get_prepare_stmt($con, $sql,
+                [$_POST['project'], $_POST['name'], $_POST['textarea'], $_POST['date'], $_POST['id']]);
         } else {
             $sql = "UPDATE task SET projects_id = ?, task_name = ?, task_description = ?, file = ?, file_name = ?, lifetime = ? WHERE id = ?";
-            mysqli_prepare($con, $sql);
-            $stmt = db_get_prepare_stmt($con, $sql, [$_POST['project'], $_POST['name'], $_POST['textarea'], $task['path'], $path, $_POST['date'], $_POST['id']]);
+            $stmt = db_get_prepare_stmt($con, $sql, [
+                $_POST['project'],
+                $_POST['name'],
+                $_POST['textarea'],
+                $task['path'],
+                $path,
+                $_POST['date'],
+                $_POST['id']
+            ]);
         }
 
         $res = mysqli_stmt_execute($stmt);
 
-        if ($res){
+        if ($res) {
             header("location: /index.php?project=" . $_POST['project'] . "&all&success-task");
-            }
-
+        }
     }
 } else {
         $page_content = include_template('guest.php');

@@ -29,40 +29,43 @@ if ($is_auth) {
         if (mysqli_num_rows($res) > 0) {
             $errors['name'] = 'Проект с таким названием уже существует.';
         }
+
         # проверяем есть ли ошибки
         if (!empty($errors)) {
-            $projects_err = one_projects ($con, $_POST['id']);
+            $projects_err = one_projects($con, $_POST['id']);
 
             $page_content = include_template('project.php', ['projects' => $projects_err, 'errors' => $errors]);
-        } else {// если ошибок нет обновляем название проекта
+        } else {
+            # если ошибок нет обновляем название проекта
             $sql = "UPDATE projects SET projects_name = ? WHERE id = ?";
             $stmt = db_get_prepare_stmt($con, $sql, [$_POST['name'], $_POST['id']]);
             $res = mysqli_stmt_execute($stmt);
-            if ($res){
+            if ($res) {
                 header("Location: /controller/project.php?id=" . $_POST['id'] . "&success=true");
             }
         }
-
     }
 
     # Удаляем проект, задачи и файлы.
     if (isset($_POST['del-prodj'])) {
         # Удаляем файлы из задач
-       $sql = "SELECT id FROM task WHERE projects_id = ?";
-       $stmt = db_get_prepare_stmt($con, $sql, [$_POST['id']]);
-       mysqli_stmt_execute($stmt);
+        $sql = "SELECT id FROM task WHERE projects_id = ?";
+        $stmt = db_get_prepare_stmt($con, $sql, [$_POST['id']]);
+        mysqli_stmt_execute($stmt);
         $res = mysqli_stmt_get_result($stmt);
-       $id_proj = mysqli_fetch_all($res, MYSQLI_ASSOC);
+        $id_proj = mysqli_fetch_all($res, MYSQLI_ASSOC);
 
        foreach ($id_proj as $id) {
+
            foreach ($id as $file_name) {
+
                $sql = "SELECT file FROM task WHERE id = " . $file_name;
                $stmt = db_get_prepare_stmt($con, $sql);
                mysqli_stmt_execute($stmt);
                $res = mysqli_stmt_get_result($stmt);
                $task_file_name = mysqli_fetch_array($res, MYSQLI_ASSOC);
-               foreach ($task_file_name as $id_file){
-                   unlink ('../uploads/' . $id_file);
+               foreach ($task_file_name as $id_file) {
+                   unlink('../uploads/' . $id_file);
                }
            }
        }

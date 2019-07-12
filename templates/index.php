@@ -97,7 +97,7 @@
                     </td>
                     <td class="task__file">
                         <?php if (isset($task['file'])) : ?>
-                            <a data-fancybox="images" href="<?= "uploads/" . $task['file'] ?>"  data-caption="fox1"><?= $task["file_name"]; ?></a>
+                            <a class="download-link" data-fancybox="images" href="<?= "uploads/" . $task['file'] ?>"  data-caption="fox1"><?= $task["file_name"]; ?></a>
 <!--                            <a class="download-link" href="--><?//= "uploads/" . $task['file'] ?><!--">--><?//= $task["file_name"]; ?><!--</a>-->
                         <?php endif; ?>
                     </td>

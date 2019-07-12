@@ -502,6 +502,10 @@ a:focus {
   color: red;
 }
 
+.task_add {
+  padding-right: 10px;
+}
+
 .tasks__item:first-child td {
   border-top: 1px solid #d7dbe8;
 }
