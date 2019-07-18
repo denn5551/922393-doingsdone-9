@@ -786,3 +786,7 @@ a:focus {
   margin: 20px 0;
 }
 
+.my-active {
+  color: rgb(110, 69, 226) !important;
+
+}

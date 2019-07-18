@@ -54,7 +54,7 @@
 
     <div class="tasks-controls">
         <nav class="tasks-switch">
-            <a href="index.php?all<?= isset($_GET['project']) ? '&project=' . $_GET['project'] : '' ?>"
+            <a href="index.php?<?= isset($_GET['project']) ? 'project=' . $_GET['project'] : '' ?>&all&page=1"
                class="tasks-switch__item <?= isset($_GET['all']) ? 'tasks-switch__item--active' : ''; ?>">Все задачи</a>
             <a href="index.php?today<?= isset($_GET['project']) ? '&project=' . $_GET['project'] : '' ?>"
                class="tasks-switch__item <?= isset($_GET['today']) ? 'tasks-switch__item--active' : ''; ?>">Повестка

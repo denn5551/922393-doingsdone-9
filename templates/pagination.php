@@ -1,4 +1,5 @@
-<?php if ($pages_count > 1 && isset($_GET['project'])) : ?>
+
+<?php if ($pages_count > 1 && isset($_GET['project']) && isset($_GET['all'])) : ?>
     <nav aria-label="Page navigation example ">
         <ul class="pagination justify-content-center mt-3">
             <li class="page-item <?=(integer)$cur_page === 1 ? 'disabled' : ' ' ?>">
@@ -14,7 +15,7 @@
     </nav>
 <?php endif; ?>
 
-<?php if ($pages_count > 1 && empty($_GET['project']) && empty($_GET['page'])) : ?>
+<?php if ($pages_count > 1 && empty($_GET['project']) && $_SERVER['PHP_SELF'] === '/index.php') : ?>
     <nav aria-label="Page navigation example ">
         <ul class="pagination justify-content-center mt-3">
             <li class="page-item <?=(integer)$cur_page === 1 ? 'disabled' : ' ' ?>">
@@ -30,7 +31,7 @@
     </nav>
 <?php endif; ?>
 
-<?php if ($pages_count > 1 && isset($_GET['page']) && empty($_GET['project'])): ?>
+<?php if ($pages_count > 1 && empty($_GET['project']) && $_SERVER['PHP_SELF'] === '/controller/review.php'): ?>
     <nav aria-label="Page navigation example ">
         <ul class="pagination justify-content-center mt-3">
             <li class="page-item <?=(integer)$cur_page === 1 ? 'disabled' : ' ' ?>">

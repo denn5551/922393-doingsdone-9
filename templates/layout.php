@@ -6,9 +6,9 @@
     <title><?= $title; ?></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/normalize.css">
-    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/flatpickr.min.css">
     <link rel="stylesheet" href="../css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="../css/style.css">
     <script src="../js/jquery-3.3.1.min.js"></script>
 </head>
 
@@ -27,19 +27,7 @@
                     <a class="main-header__side-item button button--transparent" href="/controller/auth.php">Войти</a>
                 </div>
             <?php else: ?>
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div class="navbar-nav">
-                            <a class="nav-item nav-link active" href="#">О проекте</a>
-                            <a class="nav-item nav-link" href="/controller/review.php?page=1">Отзывы </a>
-                            <a class="nav-item nav-link" href="#">Обратная связь</a>
-                            <a class="nav-item nav-link" href="#">История версий</a>
-                        </div>
-                    </div>
-                </nav>
+
                 <div class="main-header__side">
                     <a class="main-header__side-item button button--plus open-modal" href="/controller/add.php">Добавить задачу</a>
 
@@ -62,14 +50,27 @@
                 </section>
             <?php else: ?>
                 <section class="content__side col-lg-3">
-                    <h2 class="content__side-heading">Проекты</h2>
-                    <!-- TODO можно заменить id на алиас -->
-                    <nav class="main-navigation">
+                    <h4 class="content__side-heading">Меню</h4>
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                            <div class="navbar-nav flex-column">
+                                <a class="nav-item nav-link <?= $_SERVER['PHP_SELF'] === '/controller/about.php' ? 'my-active' : '' ?>" href="/controller/about.php">О проекте</a>
+                                <a class="nav-item nav-link <?= $_SERVER['PHP_SELF'] === '/controller/review.php' ? 'my-active' : '' ?>"  href="/controller/review.php?page=1">Отзывы </a>
+                                <a class="nav-item nav-link <?= $_SERVER['PHP_SELF'] === '/controller/feedback.php' ? 'my-active' : '' ?>" href="/controller/feedback.php">Обратная связь</a>
+                                <a class="nav-item nav-link <?= $_SERVER['PHP_SELF'] === '/controller/history.php' ? 'my-active' : '' ?>" href="/controller/history.php">История версий</a>
+                            </div>
+                        </div>
+                    </nav>
+                    <h4 class="content__side-heading">Проекты</h4>
+                    <nav class="main-navigation ">
                         <ul class="main-navigation__list">
                             <?php foreach ($projects as $project): ?>
                                 <li class="main-navigation__list-item <?= (isset($_GET['project']) && (integer)$_GET['project'] === $project['id']) ? 'main-navigation__list-item--active' : '' ?>">
                                     <a class="main-navigation__list-item-link"
-                                       href="/index.php?project=<?= $project['id'] ?>&all&&page=1"><?= strip_tags($project['projects_name']) ?></a>
+                                       href="/index.php?project=<?= $project['id'] ?>&all&page=1"><?= strip_tags($project['projects_name']) ?></a>
                                     <span class="main-navigation__list-item-count"><?= count_tasks_in_project($project, $my_tasks); ?></span>
                                     <a href="/controller/project.php?id=<?= $project['id']?>" class="tasks-delete" ><img src="/img/edit.jpg" alt="" width="15px"></a>
                                     <a href="/controller/add.php?id=<?= $project['id']?>" class="task_add" ><img src="/img/plus1.png" alt="" width="15px"></a>

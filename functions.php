@@ -217,7 +217,7 @@ function pagination_project ($get) {
  */
 function pagination ($con, $status, $user_id, $get) {
     $cur_page = $_GET['page'] ?? 1;
-    $page_items = 5;
+    $page_items = 10;
 
     $sql = 'SELECT COUNT(*) as projects_id  FROM task t
     JOIN projects p

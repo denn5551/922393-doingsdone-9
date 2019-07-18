@@ -19,7 +19,6 @@ if ($is_auth) {
     $result = mysqli_query($con, $sql);
 
     $flag = mysqli_fetch_assoc($result);
-//    echo  $flag['flag'];
 
     # постраничный вывод
     $cur_page = $_GET['page'] ?? 1;
@@ -80,7 +79,7 @@ $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'my_tasks' => $my_tasks,
     'projects' => $projects,
-    'title' => 'Добавление задачи',
+    'title' => 'Отзывы',
     'user_name' => $user_name,
     'is_auth' => $is_auth,
 ]);

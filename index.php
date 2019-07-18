@@ -89,7 +89,7 @@ if ($is_auth) {
     }
 
     #Постраничный вывод задач для проектов
-    if (!empty($_GET['project']) && empty($_GET['show_completed'])){
+    if (!empty($_GET['project']) && empty($_GET['show_completed']) && isset($_GET['page'])){
         [
             'my_tasks_pag' => $my_tasks_pag,
             'pages' => $pages,
@@ -106,7 +106,7 @@ if ($is_auth) {
     }
 
     #Постраничный выод задач
-    if (empty($_GET['project']) && empty($_GET['show_completed'])) {
+    if (empty($_GET['project']) && empty($_GET['show_completed']) && isset($_GET['page'])) {
         [
             'my_tasks_pag' => $my_tasks_pag,
             'pages' => $pages,
