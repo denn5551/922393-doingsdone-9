@@ -243,6 +243,7 @@ function pagination ($con, $status, $user_id, $get) {
     ON p.id = t.projects_id  WHERE user_id = ? ';
     $sql .= pagination_project($get);
     $sql .= status_task($status);
+    $sql .= ' ORDER BY id DESC';
     $sql .= '  LIMIT ? OFFSET ? ';
 
     $stmt = db_get_prepare_stmt($con, $sql, [$user_id, $page_items, $offset]);
@@ -256,3 +257,5 @@ function pagination ($con, $status, $user_id, $get) {
         'cur_page' => $cur_page
     ];
 }
+
+

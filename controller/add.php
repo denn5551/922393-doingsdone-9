@@ -59,7 +59,8 @@ if ($is_auth) {
                 [$_POST['project'], $_POST['name'], $_POST['textarea'], $task['path'], $path, $_POST['date']]);
             $res = mysqli_stmt_execute($stmt);
             if ($res && isset($_POST["button2"])) {
-                header("Location: /controller/add.php?success=true");
+//                header("Location: /controller/add.php?success=true");
+                $page_content = include_template('form-task.php', ['projects' => $projects]);
             } elseif ($res) {
                 header("Location: /index.php?success=true");
             }

@@ -13,12 +13,27 @@ if ($is_auth) {
 
     $my_tasks = get_tasks($con, $user_id, 0, false);
 
+    // добавляем отзыв
+    if ($_POST['textarea']) {
+        $sql = 'INSERT INTO review (date_review, user_name, user_id ,review, flag)  
+        VALUES (NOW(), ?, ?, ?, 1)';
+        $stmt = db_get_prepare_stmt($con, $sql, [$user_name, $user_id, $_POST['textarea']]);
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+
+//        if ($res) {
+//            header("Location: /review.php");
+//        }
+    }
+
+
     # Получаем flag и если flag = 1 скрываем форму отзывов
     $sql = 'SELECT  flag FROM review WHERE user_id =' . $user_id;
 
     $result = mysqli_query($con, $sql);
 
     $flag = mysqli_fetch_assoc($result);
+
 
     # постраничный вывод
     $cur_page = $_GET['page'] ?? 1;
@@ -36,7 +51,7 @@ if ($is_auth) {
 
     $pages = range(1, $pages_count);
 
-    // запрос на показ задач
+    // запрос на показ отзывов
     $sql = 'SELECT date_review, user_name, user_id, review  FROM review ORDER BY id DESC LIMIT ? OFFSET ?';
 
     $stmt = db_get_prepare_stmt($con, $sql, [$page_items, $offset]);
@@ -54,18 +69,9 @@ if ($is_auth) {
             'cur_page' => $cur_page
         ]);
 
-    if ($_POST['review']) {
-        $sql = 'INSERT INTO review (date_review, user_name, user_id ,review, flag)  
-        VALUES (NOW(), ?, ?, ?, 1)';
-        $stmt = db_get_prepare_stmt($con, $sql, [$user_name, $user_id, $_POST['textarea']]);
-        mysqli_stmt_execute($stmt);
-        $res = mysqli_stmt_get_result($stmt);
-
-        if ($res) {
-            header("Location: /review.php");
-        }
+    if ($_POST['textarea']) {
+        print json_encode ([ 'textarea' => $_POST['textarea'],]);exit;
     }
-
 } else {
     $page_content = include_template('guest.php');
     $layout_content = include_template('layout.php', [
