@@ -63,26 +63,25 @@
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(xhr.response);
-                // alert( xhr.responseText );
+
                 var flag = xhr.response;
 
                 var d = document.getElementById("form");
                 d.className += " visually-hidden";
 
                 var main= document.querySelector("#rew");
+
                 var str = '<div class="card border-primary mt-3 mb-3">\n'+
 '                <div class="card-body">\n'+
-'                    <h5 class="card-title">текст</h5>\n'+
+'                    <h5 class="card-title">'+ flag.user_name +'</h5>\n'+
 '                    <p class="card-text">'+ flag.textarea +'</p>\n'+
 '                </div>\n'+
 '                <div class="card-footer">\n'+
-'                    <small class="text-muted">текст3</small>\n'+
+'                    <small class="text-muted">'+ flag.data +'</small>\n'+
 '                </div>\n'+
 '            </div>';
 
                 main.innerHTML = str + main.innerHTML;
-
             }
         }
 

@@ -21,9 +21,9 @@ if ($is_auth) {
         mysqli_stmt_execute($stmt);
         $res = mysqli_stmt_get_result($stmt);
 
-//        if ($res) {
-//            header("Location: /review.php");
-//        }
+        $data = date("Y.m.d");
+        print json_encode ([ 'textarea' => $_POST['textarea'], 'user_name' => $user_name, 'data' => $data]);
+        exit;
     }
 
 
@@ -69,9 +69,6 @@ if ($is_auth) {
             'cur_page' => $cur_page
         ]);
 
-    if ($_POST['textarea']) {
-        print json_encode ([ 'textarea' => $_POST['textarea'],]);exit;
-    }
 } else {
     $page_content = include_template('guest.php');
     $layout_content = include_template('layout.php', [

@@ -44,6 +44,21 @@
         <div class="content">
             <?php if (!isset($is_auth)): ?>
                 <section class="content__side col-lg-3">
+
+                    <h4 class="content__side-heading">Меню</h4>
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                            <div class="navbar-nav flex-column">
+                                <a class="nav-item nav-link <?= $_SERVER['PHP_SELF'] === '/controller/about.php' ? 'my-active' : '' ?>" href="/controller/about.php">О проекте</a>
+                                <a class="nav-item nav-link <?= $_SERVER['PHP_SELF'] === '/controller/review.php' ? 'my-active' : '' ?>"  href="/controller/review.php?page=1">Отзывы </a>
+                                <a class="nav-item nav-link <?= $_SERVER['PHP_SELF'] === '/controller/feedback.php' ? 'my-active' : '' ?>" href="/controller/feedback.php">Обратная связь</a>
+                                <a class="nav-item nav-link <?= $_SERVER['PHP_SELF'] === '/controller/history.php' ? 'my-active' : '' ?>" href="/controller/history.php">История версий</a>
+                            </div>
+                        </div>
+                    </nav>
                     <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
 
                     <a class="button button--transparent content__side-button" href="/controller/auth.php">Войти</a>

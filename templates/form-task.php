@@ -52,9 +52,10 @@
             <div class="form__input-file">
                 <input class="visually-hidden" type="file" name="file" id="file" value="">
 
-                <label class="button button--transparent" for="file">
+                <label class="button button--transparent " for="file">
                     <span>Выберите файл</span>
                 </label>
+                <p class="js-value"></p>
                 <?php if (isset($errors['file'])) : ?>
                     <p class="form__message"><?= $errors['file']; ?></p>
                 <?php endif; ?>
@@ -68,7 +69,8 @@
                     <div class="form__row form__row--controls col-lg-6">
                         <input class="button" type="submit" name="button2" value="Добавить еще">
                     </div>
-            </div>
+                </div>
     </form>
-
 </main>
+
+
