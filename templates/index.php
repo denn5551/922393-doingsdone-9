@@ -54,16 +54,16 @@
 
     <div class="tasks-controls">
         <nav class="tasks-switch">
-            <a href="index.php?<?= isset($_GET['project']) ? 'project=' . $_GET['project'] : '' ?>&all&page=1"
+            <a href="/<?= isset($_GET['project']) ? 'project/' . $_GET['project'] . '/' : '' ?>page/1/all"
                class="tasks-switch__item <?= isset($_GET['all']) ? 'tasks-switch__item--active' : ''; ?>">Все задачи</a>
-            <a href="index.php?today<?= isset($_GET['project']) ? '&project=' . $_GET['project'] : '' ?>"
+            <a href="/<?= isset($_GET['project']) ? 'project/' . $_GET['project'] . '/' : '' ?>today"
                class="tasks-switch__item <?= isset($_GET['today']) ? 'tasks-switch__item--active' : ''; ?>">Повестка
                 дня</a>
-            <a href="index.php?tomorrow<?= isset($_GET['project']) ? '&project=' . $_GET['project'] : '' ?>"
+            <a href="/<?= isset($_GET['project']) ? 'project/' . $_GET['project'] . '/' : '' ?>tomorrow"
                class="tasks-switch__item <?= isset($_GET['tomorrow']) ? 'tasks-switch__item--active' : ''; ?>">Завтра</a>
-            <a href="index.php?overdue<?= isset($_GET['project']) ? '&project=' . $_GET['project'] : '' ?>"
+            <a href="/<?= isset($_GET['project']) ? 'project/' . $_GET['project'] . '/' : '' ?>overdue"
                class="tasks-switch__item <?= isset($_GET['overdue']) ? 'tasks-switch__item--active' : ''; ?>">Просроченные</a>
-            <a href="index.php?notime<?= isset($_GET['project']) ? '&project=' . $_GET['project'] : '' ?>"
+            <a href="/<?= isset($_GET['project']) ? 'project/' . $_GET['project'] . '/' : '' ?>notime"
                class="tasks-switch__item <?= isset($_GET['notime']) ? 'tasks-switch__item--active' : ''; ?>">Без срока</a>
         </nav>
         <?php if (isset($_GET['all']) || isset($_GET['page'])) : ?>
