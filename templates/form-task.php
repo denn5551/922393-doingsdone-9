@@ -61,15 +61,15 @@
                 <?php endif; ?>
             </div>
         </div>
-                <div class="row mb-5">
-                    <div class="form__row form__row--controls col-lg-6">
-                        <input class="button" type="submit" name="button1" value="Добавить">
-                    </div>
-
-                    <div class="form__row form__row--controls col-lg-6">
-                        <input class="button" type="submit" name="button2" value="Добавить еще">
-                    </div>
+            <div class="row mb-5">
+                <div class="form__row form__row--controls col-lg-6">
+                    <input class="button" type="submit" name="button1" value="Добавить">
                 </div>
+
+                <div class="form__row form__row--controls col-lg-6">
+                    <input class="button" type="submit" name="button2" value="Добавить еще">
+                </div>
+            </div>
     </form>
 </main>
 

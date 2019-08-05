@@ -2,11 +2,27 @@
 
 var $checkbox = document.querySelector('.show_completed');
 
+var arUrl1 = window.location.pathname.split('/');
+
+var arUrl = window.location.search.split('&');
+
 if ($checkbox) {
   $checkbox.addEventListener('change', function (evt) {
     var is_checked = +evt.target.checked;
-
     window.location = window.location.href + '&show_completed=' + is_checked;
+  });
+}
+
+if (arUrl[3] === 'show_completed=1') {
+  $checkbox.addEventListener('change', function (evt) {
+    var is_checked = +evt.target.checked;
+    window.location = 'http://mybisnes.local/' + arUrl1[1] + arUrl[0] + '&' + arUrl[1] + '&' + arUrl[2];
+
+  });
+} else if(arUrl[2] === 'show_completed=1') {
+  $checkbox.addEventListener('change', function (evt) {
+    var is_checked = +evt.target.checked;
+    window.location = 'http://mybisnes.local/' + arUrl1[1] + arUrl[0] + '&' + arUrl[1];
   });
 }
 

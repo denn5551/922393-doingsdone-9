@@ -72,6 +72,7 @@
                 <label class="button button--transparent" for="file">
                     <span>Выберите файл</span>
                 </label>
+                <p class="js-value"></p>
                 <?php endif; ?>
 
                 <?php if (!empty($task['file'])) : ?>
@@ -98,5 +99,4 @@
             </div>
         </div>
     </form>
-
 </main>
