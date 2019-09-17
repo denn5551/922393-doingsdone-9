@@ -9,7 +9,7 @@
         </div>
     <?php endif; ?>
     <h1>Личный кабинет</h1>
-    <form class="form" action="user.php" method="post" autocomplete="off" enctype="multipart/form-data">
+    <form class="form" action="user" method="post" autocomplete="off" enctype="multipart/form-data">
         <?php foreach ($users_data as $user_data): ?>
         <div class="col-lg-9">
            <p>Дата регистрации: <?= strip_tags($user_data['date_reg']); ?></p>

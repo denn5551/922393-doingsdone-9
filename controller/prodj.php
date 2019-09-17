@@ -34,7 +34,7 @@ if ($is_auth) {
             $res = mysqli_stmt_execute($stmt);
 
             if ($res) {
-                header("Location: /index.php?success_project=true");
+                header("Location: /index/success_project");
             }
         }
     } else {

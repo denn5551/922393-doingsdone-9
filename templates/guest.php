@@ -10,6 +10,6 @@
                 сроки.</p>
         </div>
 
-        <a class="welcome__button button" href="reg.php">Зарегистрироваться</a>
+        <a class="welcome__button button" href="reg">Зарегистрироваться</a>
     </section>
 </div>

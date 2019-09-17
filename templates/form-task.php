@@ -10,7 +10,7 @@
         </div>
     <?php endif; ?>
 
-    <form class="form" action="add.php" method="post" autocomplete="off" enctype="multipart/form-data">
+    <form class="form" action="/controller/add.php" method="post" autocomplete="off" enctype="multipart/form-data">
         <div class="form__row">
             <?php $classname = isset($errors['name']) ? "form__input--error" : ''; ?>
             <label class="form__label" for="name">Название <sup>*</sup></label>

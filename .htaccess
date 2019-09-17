@@ -14,11 +14,43 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 #RewriteRule образец цель
 
+#страница проекта
 RewriteRule  ^project/([(0-9)]+)/page/([(0-9)]+)/([(a-z)]+)$ index.php?project=$1&page=$2&$3 [L,QSA]
+#выполненые задачи в проекте
+RewriteRule  ^project/([(0-9)]+)/page/([(0-9)]+)/([(a-z)]+)/show_completed/([(0-1)]+)$ index.php?project=$1&page=$2&$3&show_completed=$4 [L,QSA]
+#фильтры в поектах
 RewriteRule  ^project/([(0-9)]+)/([(a-z)]+)$ index.php?project=$1&$2 [L,QSA]
-RewriteRule  ^/project/page/([(0-9)]+)/([(a-z)]+)$ index.php?page=$1&$2 [L,QSA]
+#RewriteRule  ^/project/page/([(0-9)]+)/([(a-z)]+)$ index.php?page=$1&$2 [L,QSA]
+# гл. стр.
 RewriteRule  ^page/([(0-9)]+)/([(a-z)]+)$ index.php?page=$1&$2 [L,QSA]
+#выполненые задачи на гл.
+RewriteRule  ^page/([(0-9)]+)/([(a-z)]+)/show_completed/([(0-1)]+)$ index.php?page=$1&$2&show_completed=$3 [L,QSA]
+#фильтр на главной
 RewriteRule  ^([(a-z)]+)/([(a-z)]+)$ index.php?$2 [L,QSA]
+#стр. отзывы
+RewriteRule  ^review/page/([(0-9)]+)$ index.php?review.php?page=$1 [L,QSA]
+#редактирование задачи
+RewriteRule  ^task/task-edit/([(0-9)]+)/id/([(0-9)]+)$ controller/task.php?task-edit=$1&id=$2 [L,QSA]
+#Добавление задачи и проекта
+RewriteRule  ^index/([(A-z)]+)$  index.php?$1 [L,QSA]
+#Удаление задачи
+RewriteRule  ^index/delete/id/([(0-9)]+)/file/([(A-Za-z0-9.)]+)$ index.php?delete&id=$1&file=$2 [L,QSA]
+#Редактирование задачи
+RewriteRule  ^project/id/([(0-9)]+)$ controller/project.php?id=$1 [L,QSA]
+#Сохранение изменений в проекте
+RewriteRule  ^project/id/([(0-9)]+)/success$ controller/project.php?id=$1&success [L,QSA]
+#Добавление задачи в конкретный проект
+RewriteRule  ^add/id/([(0-9)]+)$ controller/add.php?id=$1 [L,QSA]
+#Задачи задачи
+RewriteRule  ^index/task_id/([(0-9)]+)/check/([(0-9)]+)$ index.php?task_id=$1&check=$2 [L,QSA]
+#Редактирование user
+RewriteRule  ^user.php$ controller/user.php [L,QSA]
+#Регистрация
+RewriteRule  ^reg.php$ controller/reg.php [L,QSA]
+#Скрываем старницу index.php
+RewriteRule  ^index$ index.php?page=1&all [L,QSA]
+
+#меню
 RewriteRule  ^([(a-z)]+)$ index.php?$1 [L,QSA]
 #RewriteRule ^(.*)$ index.php
 

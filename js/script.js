@@ -4,25 +4,23 @@ var $checkbox = document.querySelector('.show_completed');
 
 var arUrl1 = window.location.pathname.split('/');
 
-var arUrl = window.location.search.split('&');
-
 if ($checkbox) {
   $checkbox.addEventListener('change', function (evt) {
     var is_checked = +evt.target.checked;
-    window.location = window.location.href + '&show_completed=' + is_checked;
+    window.location = window.location.href + '/show_completed/' + is_checked;
   });
 }
 
-if (arUrl[3] === 'show_completed=1') {
+if (arUrl1[7] === '1') {
   $checkbox.addEventListener('change', function (evt) {
     var is_checked = +evt.target.checked;
-    window.location = 'http://mybisnes.local/' + arUrl1[1] + arUrl[0] + '&' + arUrl[1] + '&' + arUrl[2];
+    window.location = 'http://mybisnes.local/' + arUrl1[1] + '/' + arUrl1[2] + '/' + arUrl1[3] + '/' + arUrl1[4] + '/' + arUrl1[5];
 
   });
-} else if(arUrl[2] === 'show_completed=1') {
+} else if(arUrl1[5] === '1') {
   $checkbox.addEventListener('change', function (evt) {
     var is_checked = +evt.target.checked;
-    window.location = 'http://mybisnes.local/' + arUrl1[1] + arUrl[0] + '&' + arUrl[1];
+    window.location = 'http://mybisnes.local/' + arUrl1[1] + '/' + arUrl1[2] + '/' + arUrl1[3];
   });
 }
 
@@ -37,7 +35,7 @@ if ($taskTable) {
       var is_checked = +el.checked;
       var task_id = el.getAttribute('value');
 
-      var url = 'index.php?task_id=' + task_id + '&check=' + is_checked;
+      var url = '/index/task_id/' + task_id + '/check/' + is_checked;
       window.location = url;
     }
   });
@@ -59,12 +57,21 @@ $(document).ready(function () {
 
 });
 
-// Выбираем файл
+// fail name
 $(document).ready(function() {
-
   $('input[type="file"]').change(function(){
     var value = $("input[type='file']").val();
     $('.js-value').text(value);
   });
-
 });
+
+//menu
+function showHide(element_id) {
+  if (document.getElementById(element_id)) {
+    var obj = document.getElementById(element_id);
+    if (obj.style.display != "block") {
+      obj.style.display = "block";
+    }
+    else obj.style.display = "none";
+  }
+}

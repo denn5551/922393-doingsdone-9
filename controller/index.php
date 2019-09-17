@@ -74,7 +74,7 @@ if ($is_auth) {
         if (!empty($_GET['file'])) {
             unlink('uploads/' . $_GET['file']);
         }
-        header("Location: /index.php?success_del=true");
+        header("Location: /index/success_del");
     }
 
     # Пометить задачу как выполненую
@@ -84,7 +84,7 @@ if ($is_auth) {
                 WHERE id = ?";
         $stmt = db_get_prepare_stmt($con, $sql, [$id_task]);
         $res = mysqli_stmt_execute($stmt);
-        header("Location: /index.php");
+        header("Location: /index/success_completed");
     }
 
     #Постраничный вывод задач для проектов

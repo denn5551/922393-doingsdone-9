@@ -72,9 +72,18 @@
                 <label class="button button--transparent" for="file">
                     <span>Выберите файл</span>
                 </label>
-                <p class="js-value"></p>
                 <?php endif; ?>
+                <p class="js-value"></p>
+                <script>
+                    $(document).ready(function() {
 
+                        $('input[type="file"]').change(function(){
+                            var value = $("input[type='file']").val();
+                            $('.js-value').text(value);
+                        });
+
+                    });
+                </script>
                 <?php if (!empty($task['file'])) : ?>
                     <input type="hidden" name="file_name" value="<?= $task["file_name"]; ?>">
                     <a data-fancybox="images"  href="<?= "uploads/" . $task['file'] ?>"  data-caption="fox1"><?= $task["file_name"]; ?></a>

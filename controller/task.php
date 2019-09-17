@@ -1,7 +1,7 @@
 <?php
-require_once('../helpers.php');
-require_once('../functions.php');
-require_once('../init.php');
+require_once($_SERVER['DOCUMENT_ROOT'] .'/helpers.php');
+require_once($_SERVER['DOCUMENT_ROOT'] .'/functions.php');
+require_once($_SERVER['DOCUMENT_ROOT'] .'/init.php');
 
 
 if ($is_auth) {
@@ -17,7 +17,7 @@ if ($is_auth) {
 
     # Кнопка назад
     if (isset($_POST['back'])) {
-        header("Location: /index.php?all&page=1");
+        header("Location: /index.php/all/page/1");
     }
 
     # Переходим на стр редактирования и получаем данные по задаче
@@ -117,7 +117,7 @@ if ($is_auth) {
         $res = mysqli_stmt_execute($stmt);
 
         if ($res) {
-            header("location: /index.php?project=" . $_POST['project'] . "&all&success-task");
+            header("location: /index/success_task");
         }
     }
 } else {

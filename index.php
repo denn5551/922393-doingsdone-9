@@ -12,6 +12,11 @@ $pagesAllowed = [
     'review' => '',
     'prodj' => '',
     'add' => '',
+    'task' => '',
+    'logout' => '',
+    'auth' => '',
+    'user' => '',
+    'reg' => '',
     'project' => 'index',
     'index' => 'index',
     'index.php' => 'index',
@@ -25,7 +30,6 @@ $pagesAllowed = [
 ];
 
 if (isset($pagesAllowed[$act])){
-
     require "controller/" . ($pagesAllowed[$act] ? $pagesAllowed[$act] : $act) . ".php";
 } else {
     require "controller/404.php";

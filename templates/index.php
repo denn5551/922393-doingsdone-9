@@ -10,6 +10,24 @@
         </div>
     <?php endif; ?>
 
+    <?php if (isset($_GET['success_task'])): ?>
+        <div class="alert alert-success" role="alert">
+            Задача отредактирована успешно!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['success_completed'])): ?>
+        <div class="alert alert-success" role="alert">
+            Задача выполнена!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php endif; ?>
+
     <?php if (isset($_GET['success_del'])): ?>
         <div class="alert alert-success" role="alert">
             Задача удалена!
@@ -97,13 +115,13 @@
                     </td>
                     <td class="task__file">
                         <?php if (isset($task['file'])) : ?>
-                            <a class="download-link" data-fancybox="images" href="<?= "uploads/" . $task['file'] ?>"  data-caption="fox1"><?= $task["file_name"]; ?></a>
+                            <a class="download-link" data-fancybox="images" href="<?= "/uploads/" . $task['file'] ?>"  data-caption="fox1"><?= $task["file_name"]; ?></a>
 <!--                            <a class="download-link" href="--><?//= "uploads/" . $task['file'] ?><!--">--><?//= $task["file_name"]; ?><!--</a>-->
                         <?php endif; ?>
                     </td>
                     <td class="task__date"><?= (integer)$task["lifetime"] === 0 ? 'Бессрочно' : $task["lifetime"]; ?></td>
                     <td class="task__controls">
-                        <a href="/controller/task.php?task-edit=<?= $task['id']; ?>&id=<?=  $task["projects_id"] ?>" class="tasks-delete" ><img src="/img/edit.jpg" alt="" width="15px"></a>
+                        <a href="/task/task-edit/<?= $task['id']; ?>/id/<?= $task["projects_id"] ?>" class="tasks-delete" ><img src="/img/edit.jpg" alt="" width="15px"></a>
                         <a href="#" class="tasks-delete " data-toggle="modal" data-target="#exampleModal">Х</a>
                     </td>
                 </tr>
@@ -120,9 +138,10 @@
                                 <p>Вы действительно хотите удалить задачу?</p>
                                 <p>При удалении задачи востановить ее будет невозможно!</p>
                             </div>
+
                             <div class="modal-footer">
                                 <div class="form__row form__row--controls col-lg-6 ">
-                                    <a href="index.php?delete&id=<?= $task['id']; ?>&file=<?= $task['file']; ?>" class="tasks-delete ">
+                                    <a href="/index/delete/id/<?= $task['id']; ?>/file/<?= $task['file']; ?>" class="tasks-delete ">
                                         <input class="button" id="start" type="submit" name="del-prodj" value="Удалить задачу">
                                     </a>
                                 </div>

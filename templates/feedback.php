@@ -1,9 +1,11 @@
 <div class="container">
     <div class="row">
         <h2>Обратная связь</h2>
+    </div>
+    <div class="row">
         <div class="col">
             <p>
-                ТекстТекстТекстТекстТекстТекстТекстТекстТекстТекстТекстТекстТекстТекстТекстТекстТекстТекстТекстТекстТекстТекст
+                Если у вас есть предложения по улучшению проекта или вы хотите связаться с разработчиком, отправьте ваше сообщение используя форму ниже.
             </p>
             <div class="col-lg-9">
                 <form class="form" action="/controller/feedback.php" method="post" autocomplete="off" enctype="multipart/form-data">

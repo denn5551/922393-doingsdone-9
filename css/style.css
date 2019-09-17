@@ -87,6 +87,7 @@ a:focus {
 
 .container--with-sidebar {
   position: relative;
+  background: #fff;
 }
 
 .container--with-sidebar::after {
@@ -246,7 +247,13 @@ a:focus {
 }
 
 .content__side {
-  width: 260px;
+  background: #f9fafc;
+  border: solid 1px #6e45e2;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  padding: 20px;
+  position: absolute;
+  z-index: 1000;
 }
 
 .content__side-heading {
@@ -268,6 +275,8 @@ a:focus {
 
 .main-navigation {
   margin-bottom: 18px;
+  overflow: auto;
+  height: 300px;
 }
 
 .main-navigation__list {
@@ -321,6 +330,7 @@ a:focus {
 
   background-color: #e8e9ee;
 }
+
 
 .content__main {
   flex-grow: 1;

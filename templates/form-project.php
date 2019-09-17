@@ -1,7 +1,7 @@
 <main class="content__main">
     <h2 class="content__main-heading">Добавление проекта</h2>
 
-    <form class="form" action="./prodj.php" method="post" autocomplete="off">
+    <form class="form" action="/controller/prodj.php" method="post" autocomplete="off">
         <div class="form__row">
             <?php $classname = isset($errors['name']) ? "form__input--error" : ''; ?>
             <label class="form__label" for="project_name">Название <sup>*</sup></label>

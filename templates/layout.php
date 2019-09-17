@@ -16,15 +16,15 @@
 <h1 class="visually-hidden"><?= $title; ?></h1>
 
 <div class="page-wrapper">
-    <div class="container container--with-sidebar">
+    <div class="container-fluid container--with-sidebar">
         <header class="main-header">
-            <a href="/page/1/all">
+            <a href="/index">
                 <img src="/img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
             <?php if (!isset($is_auth)): ?>
                 <div class="main-header__side">
-                    <a class="main-header__side-item button button--transparent" href="/controller/auth.php">Войти</a>
+                    <a class="main-header__side-item button button--transparent" href="/auth">Войти</a>
                 </div>
             <?php else: ?>
 
@@ -33,39 +33,26 @@
 
                     <div class="main-header__side-item user-menu">
                         <div class="user-menu__data">
-                            <a href="/controller/user.php"><?= strip_tags($user_name); ?></a>
-                            <a href="/controller/logout.php">Выйти</a>
+                            <a href="/user"><?= strip_tags($user_name); ?></a>
+                            <a href="/logout">Выйти</a>
                         </div>
                     </div>
                 </div>
             <?php endif; ?>
         </header>
-
+<button class="btn btn-info" onclick="showHide('sidebar');" style="margin-left: 25px;">Меню</button>
         <div class="content">
             <?php if (!isset($is_auth)): ?>
-                <section class="content__side col-lg-3">
+                <section id="sidebar" class="content__side col-lg-3">
 
-                    <h4 class="content__side-heading">Меню</h4>
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                            <div class="navbar-nav flex-column">
-                                <a class="nav-item nav-link <?= $_SERVER['REQUEST_URI'] === '/about' ? 'my-active' : '' ?>" href="/about">О проекте</a>
-                                <a class="nav-item nav-link <?= $_SERVER['REQUEST_URI'] === '/review' ? 'my-active' : '' ?>"  href="/review.php?page=1">Отзывы </a>
-                                <a class="nav-item nav-link <?= $_SERVER['REQUEST_URI'] === '/feedback' ? 'my-active' : '' ?>" href="/feedback">Обратная связь</a>
-                                <a class="nav-item nav-link <?= $_SERVER['REQUEST_URI'] === '/history' ? 'my-active' : '' ?>" href="/history">История версий</a>
-                            </div>
-                        </div>
-                    </nav>
                     <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
 
-                    <a class="button button--transparent content__side-button" href="/controller/auth.php">Войти</a>
+                    <a class="button button--transparent content__side-button" href="/auth">Войти</a>
                 </section>
             <?php else: ?>
-                <section class="content__side col-lg-3">
-                    <h4 class="content__side-heading">Меню</h4>
+
+                <section id="sidebar" class="content__side col-lg-3" style="display:none">
+                    <h4 >Меню</h4>
                     <nav class="navbar navbar-expand-lg navbar-light bg-light">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -73,7 +60,7 @@
                         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                             <div class="navbar-nav flex-column">
                                 <a class="nav-item nav-link <?= $_SERVER['REQUEST_URI'] === '/about' ? 'my-active' : '' ?>" href="/about">О проекте</a>
-                                <a class="nav-item nav-link <?= $_SERVER['REQUEST_URI'] === '/review' ? 'my-active' : '' ?>"  href="/review.php?page=1">Отзывы </a>
+                                <a class="nav-item nav-link <?= $_SERVER['REQUEST_URI'] === '/review' ? 'my-active' : '' ?>"  href="/review/page/1">Отзывы </a>
                                 <a class="nav-item nav-link <?= $_SERVER['REQUEST_URI'] === '/feedback' ? 'my-active' : '' ?>" href="/feedback">Обратная связь</a>
                                 <a class="nav-item nav-link <?= $_SERVER['REQUEST_URI'] === '/history' ? 'my-active' : '' ?>" href="/history">История версий</a>
                             </div>
@@ -87,8 +74,8 @@
                                     <a class="main-navigation__list-item-link"
                                        href="/project/<?= $project['id'] ?>/page/1/all"><?= strip_tags($project['projects_name']) ?></a>
                                     <span class="main-navigation__list-item-count"><?= count_tasks_in_project($project, $my_tasks); ?></span>
-                                    <a href="/controller/project.php?id=<?= $project['id']?>" class="tasks-delete" ><img src="/img/edit.jpg" alt="" width="15px"></a>
-                                    <a href="/controller/add.php?id=<?= $project['id']?>" class="task_add" ><img src="/img/plus1.png" alt="" width="15px"></a>
+                                    <a href="/project/id/<?= $project['id']?>" class="tasks-delete" ><img src="/img/edit.jpg" alt="" width="15px"></a>
+                                    <a href="/add/id/<?= $project['id']?>" class="task_add" ><img src="/img/plus1.png" alt="" width="15px"></a>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
@@ -99,8 +86,8 @@
 
                 </section>
             <?php endif; ?>
-            <?= $content; ?>
 
+            <?= $content; ?>
         </div>
     </div>
 </div>

@@ -62,7 +62,7 @@ if ($is_auth) {
 //                header("Location: /controller/add.php?success=true");
                 $page_content = include_template('form-task.php', ['projects' => $projects]);
             } elseif ($res) {
-                header("Location: /index.php?success=true");
+                header("Location: /index/success");
             }
         }
     } else {

@@ -41,7 +41,7 @@ if ($is_auth) {
             $stmt = db_get_prepare_stmt($con, $sql, [$_POST['name'], $_POST['id']]);
             $res = mysqli_stmt_execute($stmt);
             if ($res) {
-                header("Location: /controller/project.php?id=" . $_POST['id'] . "&success=true");
+                header("Location: /project/id/" . $_POST['id'] . "/success");
             }
         }
     }
@@ -65,7 +65,9 @@ if ($is_auth) {
                $res = mysqli_stmt_get_result($stmt);
                $task_file_name = mysqli_fetch_array($res, MYSQLI_ASSOC);
                foreach ($task_file_name as $id_file) {
-                   unlink('../uploads/' . $id_file);
+                   if (!empty($id_file)) {
+                       unlink($_SERVER['DOCUMENT_ROOT'] . 'uploads/' . $id_file);
+                   }
                }
            }
        }
@@ -83,12 +85,12 @@ if ($is_auth) {
         $res = mysqli_stmt_execute($stmt);
 
         if ($res){
-            header("Location: /index.php?success_del_proj=true");
+            header("Location: /index/success_del_proj");
         }
     }
 
     if (isset($_POST['back'])) {
-        header("Location: /index.php?project=" . $_POST['id'] . "&all");
+        header("Location: /project/" . $_POST['id'] . "/page/1/all");
     }
 
     $projects_edit = one_projects ($con, $_GET['id']);;
